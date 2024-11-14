@@ -41,16 +41,31 @@ namespace MenuFramework
         {
             while (true)
             {
-                Console.Clear();
-                DrawBorders();
+                string userInput;
+                UserInput(out userInput);
+                if (!string.IsNullOrEmpty(userInput))
+                    if (userInput == "quit") break;
 
-                if (Console.KeyAvailable)
-                {
-                    var key = Console.ReadKey(intercept: true).Key;
-                    if (key == ConsoleKey.Q) break;
-                }
+                Loop();
 
                 System.Threading.Thread.Sleep(100);
+            }
+        }
+
+        protected void Loop()
+        {
+            Console.Clear();
+            DrawBorders();
+        }
+
+        protected void UserInput(out string key)
+        {
+            key = "";
+            if (Console.KeyAvailable)
+            {
+                var inputKey = Console.ReadKey(intercept: true).Key;
+                if (inputKey == ConsoleKey.Q) key = "quit";
+                else key = inputKey.ToString();
             }
         }
 
