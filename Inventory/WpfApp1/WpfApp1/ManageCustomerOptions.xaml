@@ -1,0 +1,19 @@
+﻿<Window x:Class="WpfApp1.ManageCustomerOptions"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1"
+        mc:Ignorable="d"
+        Title="ManageCustomerOptions" MaxHeight="200" MinHeight="200" MaxWidth="100" MinWidth="100">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Button Grid.Row="0" Content="New Name" x:Name="NewNameBtn" Click="NewNameBtn_Click"/>
+        <Button Grid.Row="1" Content="New Mail" x:Name="NewailBtn" Click="NewMailBtn_Click"/>
+        <Button Grid.Row="2" Content="Delete" x:Name="DeletUserBtn" Click="DeletUserBtn_Click"/>
+    </Grid>
+</Window>
