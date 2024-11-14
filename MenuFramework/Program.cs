@@ -25,7 +25,7 @@
           /*}*/
 
           Console.Clear();
-          Window window = new Window(50, 30);
+          MenuWindow window = new MenuWindow(50, 30);
           window.Show();
       }
   }
