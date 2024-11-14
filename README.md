@@ -1,2 +1,0 @@
-# currentProjects
-My current projects.
