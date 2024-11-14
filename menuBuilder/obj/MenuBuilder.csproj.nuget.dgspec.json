@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/ftl/lab/wifi/code/MenuBuilder/MenuBuilder.csproj": {}
+    "/Users/ftl/lab/git/currentProjects/menuBuilder/MenuBuilder.csproj": {}
   },
   "projects": {
-    "/Users/ftl/lab/wifi/code/MenuBuilder/MenuBuilder.csproj": {
+    "/Users/ftl/lab/git/currentProjects/menuBuilder/MenuBuilder.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/ftl/lab/wifi/code/MenuBuilder/MenuBuilder.csproj",
+        "projectUniqueName": "/Users/ftl/lab/git/currentProjects/menuBuilder/MenuBuilder.csproj",
         "projectName": "MenuBuilder",
-        "projectPath": "/Users/ftl/lab/wifi/code/MenuBuilder/MenuBuilder.csproj",
+        "projectPath": "/Users/ftl/lab/git/currentProjects/menuBuilder/MenuBuilder.csproj",
         "packagesPath": "/Users/ftl/.nuget/packages/",
-        "outputPath": "/Users/ftl/lab/wifi/code/MenuBuilder/obj/",
+        "outputPath": "/Users/ftl/lab/git/currentProjects/menuBuilder/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/ftl/.nuget/NuGet/NuGet.Config"

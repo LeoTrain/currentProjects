@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "uSbTjYQ4XjQ=",
+  "dgSpecHash": "GimwWStqZ30=",
   "success": true,
-  "projectFilePath": "/Users/ftl/lab/wifi/code/MenuBuilder/MenuBuilder.csproj",
+  "projectFilePath": "/Users/ftl/lab/git/currentProjects/menuBuilder/MenuBuilder.csproj",
   "expectedPackageFiles": [
     "/Users/ftl/.nuget/packages/figgle/0.5.1/figgle.0.5.1.nupkg.sha512"
   ],

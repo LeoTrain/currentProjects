@@ -4,14 +4,14 @@
   {
       static void Main()
       {
-          var loginMenu = new LoginMenu("LOGIN");
-          bool logSucc = false;
-          while (!logSucc)
-          {
-              logSucc = loginMenu.Display();
-          }
-          MessageBox.Display("SUCCESFULL", ["Yes !!!", "You passed the test !", "Press Enter to Continue"], MessageBoxType.Info);
-
+          /*var loginMenu = new LoginMenu("LOGIN");*/
+          /*bool logSucc = false;*/
+          /*while (!logSucc)*/
+          /*{*/
+          /*    logSucc = loginMenu.Display();*/
+          /*}*/
+          /*MessageBox.Display("SUCCESFULL", ["Yes !!!", "You passed the test !", "Press Enter to Continue"], MessageBoxType.Info);*/
+          /**/
 
           /*var mainMenu = new Menu("Menu Principal");*/
           /*mainMenu.AddOption("Option 1", () => Console.WriteLine("Action de l'option 1 exécutée !"));*/
@@ -23,6 +23,10 @@
           /*{*/
           /*    mainMenu.Display();*/
           /*}*/
+
+          Console.Clear();
+          Window window = new Window();
+          window.Show();
       }
   }
 }
