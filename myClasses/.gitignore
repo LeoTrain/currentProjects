@@ -1,0 +1,32 @@
+
+# Build artifacts
+bin/
+obj/
+
+# User-specific files
+*.user
+*.userosscache
+*.suo
+*.sln.docstates
+
+# Mono Auto Generated Files
+mono_crash.*
+
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Fichiers de configuration d'environnement de développement
+.vs/
+.idea/
+*.suo
+*.psess
+*.user
+
+# Fichiers de publication
+publish/
+
+# Backup & Log files
+*.log
+*.bak
+*.swp
