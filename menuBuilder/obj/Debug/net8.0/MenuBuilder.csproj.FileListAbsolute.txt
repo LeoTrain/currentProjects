@@ -1,0 +1,17 @@
+/Users/ftl/lab/wifi/code/MenuBuilder/bin/Debug/net8.0/MenuBuilder
+/Users/ftl/lab/wifi/code/MenuBuilder/bin/Debug/net8.0/MenuBuilder.deps.json
+/Users/ftl/lab/wifi/code/MenuBuilder/bin/Debug/net8.0/MenuBuilder.runtimeconfig.json
+/Users/ftl/lab/wifi/code/MenuBuilder/bin/Debug/net8.0/MenuBuilder.dll
+/Users/ftl/lab/wifi/code/MenuBuilder/bin/Debug/net8.0/MenuBuilder.pdb
+/Users/ftl/lab/wifi/code/MenuBuilder/obj/Debug/net8.0/MenuBuilder.GeneratedMSBuildEditorConfig.editorconfig
+/Users/ftl/lab/wifi/code/MenuBuilder/obj/Debug/net8.0/MenuBuilder.AssemblyInfoInputs.cache
+/Users/ftl/lab/wifi/code/MenuBuilder/obj/Debug/net8.0/MenuBuilder.AssemblyInfo.cs
+/Users/ftl/lab/wifi/code/MenuBuilder/obj/Debug/net8.0/MenuBuilder.csproj.CoreCompileInputs.cache
+/Users/ftl/lab/wifi/code/MenuBuilder/obj/Debug/net8.0/MenuBuilder.dll
+/Users/ftl/lab/wifi/code/MenuBuilder/obj/Debug/net8.0/refint/MenuBuilder.dll
+/Users/ftl/lab/wifi/code/MenuBuilder/obj/Debug/net8.0/MenuBuilder.pdb
+/Users/ftl/lab/wifi/code/MenuBuilder/obj/Debug/net8.0/MenuBuilder.genruntimeconfig.cache
+/Users/ftl/lab/wifi/code/MenuBuilder/obj/Debug/net8.0/ref/MenuBuilder.dll
+/Users/ftl/lab/wifi/code/MenuBuilder/obj/Debug/net8.0/MenuBuilder.csproj.AssemblyReference.cache
+/Users/ftl/lab/wifi/code/MenuBuilder/bin/Debug/net8.0/Figgle.dll
+/Users/ftl/lab/wifi/code/MenuBuilder/obj/Debug/net8.0/MenuBuil.4F7A2572.Up2Date
