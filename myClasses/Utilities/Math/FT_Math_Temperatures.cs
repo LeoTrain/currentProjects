@@ -1,6 +1,6 @@
 namespace MyClasses
 {
-  public partial class FT_Math
+  public static partial class FT_Math
   {
     public static class Temperatures
     {
