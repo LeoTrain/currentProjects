@@ -1,6 +1,6 @@
 namespace MyClasses
 {
-    public partial class FT_Math
+    public static partial class FT_Math
     {
         public static double InchToFoot(this double inch) => inch / 12.0;
         public static double InchToYard(this double inch) => inch / 36.0;
