@@ -34,8 +34,12 @@ class Program
     static void Main(string[] args)
     {
         double inches = 12;
-        double centimeters = FT_Math.Imperial.InchToCentimeter(inches);
+        double centimeters = inches.InchToCentimeter();
         Console.WriteLine($"{inches} inches = {centimeters} cm");
+
+        double milimeters = 1000;
+        double centi = milimeters.MilimeterToCentimeter();
+        Console.WriteLine($"{milimeters} mm = {centi} cm");
 
         double[] data = { 1, 2, 2, 3, 4 };
         double mean = FT_Math.Statistics.Mean(data);
@@ -47,22 +51,14 @@ class Program
 ### Key Methods Description
 
 #### Module: `Imperial`
-- **`InchToCentimeter(double inch)`**: Converts inches to centimeters.
-- **`MileToKilometer(double mile)`**: Converts miles to kilometers.
-
-#### Module: `Metric`
-- **`MilimeterToCentimeter(double milimeter)`**: Converts millimeters to centimeters.
-- **`MeterToKilometer(double meter)`**: Converts meters to kilometers.
-
-#### Module: `Statistics`
-- **`Mean(double[] array)`**: Calculates the mean of a data array.
-- **`Median(double[] array)`**: Calculates the median of a data array.
-- **`Mode(double[] array)`**: Identifies the most frequent value(s) in a data array.
+- **`InchToCentimeter(this double inch)`**: Converts inches to centimeters.
+- **`MileToKilometer(this double mile)`**: Converts miles to kilometers.
 
 #### Module: `Temperatures`
 - **`CelsiusToFahrenheit(double input)`**: Converts Celsius to Fahrenheit.
 - **`KelvinToCelsius(double input)`**: Converts Kelvin to Celsius.
 
+> **Note**: Methods in both the `Metric` and `Imperial` modules are implemented as extension methods and must be called using a `double` instance, such as `myValue.MilimeterToCentimeter()` or `myValue.InchToCentimeter()`.
 
 ## Contribution
 
@@ -71,4 +67,5 @@ class Program
 3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
+
 
