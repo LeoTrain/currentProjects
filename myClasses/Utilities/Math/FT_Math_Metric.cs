@@ -43,5 +43,7 @@ namespace MyClasses
         public static double HectometerToMeter(this double hectometer) => hectometer / 100;
         public static double HectometerToDecameter(this double hectometer) => hectometer / 10;
         public static double HectometerToKilometer(this double hectometer) => hectometer * 10;
+
+        public static double Rounded(this double value, int decimals = 2) => Math.Round(value, decimals);
     }
 }
