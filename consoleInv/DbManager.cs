@@ -42,9 +42,20 @@ namespace consoleInv
             }
         }
 
-
-        public void PrintUsers()
+        public bool UserExists(string username)
         {
+            Connect();
+            string[] existingUsers = GetDataFromColumn("Users", "Username");
+            Close();
+
+            if (Array.Exists(existingUsers, user => user == username))
+                return true;
+            return false;
+        }
+
+        public List<User> GetUsers()
+        {
+            List<User> users = new List<User>(); 
             Connect();
             string query = "SELECT * FROM Users";
             using (var command = new SqliteCommand(query, connection))
@@ -52,10 +63,23 @@ namespace consoleInv
             {
                 while (reader.Read())
                 {
-                    Console.WriteLine($"ID: {reader["ID"]}, Username: {reader["Username"]}, Password: {reader["Password"]}, Email: {reader["Email"]}");
+                    try
+                    {
+                        User user = new User(
+                                Convert.ToInt32(reader["ID"]),
+                                reader["Username"].ToString() ?? "",
+                                reader["Password"].ToString() ?? "",
+                                Email.FromString(reader["Email"].ToString() ?? ""));
+                        users.Add(user);
+                    }
+                    catch (Exception exc)
+                    {
+                        Console.WriteLine($"Exception occured : {exc.Message}");
+                    }
                 }
             }
             Close();
+            return users;
         }
     }
 }
