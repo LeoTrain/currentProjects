@@ -7,10 +7,10 @@
             var options = new Dictionary<string, Action>
             {
                 { "Option 1", () => ShowNewWindow() },
-                { "Option 2", () => Console.WriteLine("Action 2 triggered!") },
+                { "Option 2", () => Console.Clear() },
                 { "Exit", () => Environment.Exit(0) }
             };
-            MenuWindow window = new MenuWindow(options);
+            MenuWindow window = new MenuWindow(50, 20, options);
             window.Show();
       }
 
