@@ -1,16 +1,21 @@
 namespace MyClasses
 {
-    public class ColumnDefinition
+    public class SqlColumnDefinition
     {
         public string Name { get; set; }
         public SqlType Type { get; set; }
         public string Constraints { get; set; }
 
-        public ColumnDefinition(string name, SqlType type, string constraints = "")
+        public SqlColumnDefinition(string name, SqlType type, string constraints = "")
         {
             Name = name;
             Type = type;
             Constraints = constraints;
+        }
+
+        public override string ToString()
+        {
+            return $"{Name} {Type.ToString()} {Constraints}".Trim();
         }
     }
 }

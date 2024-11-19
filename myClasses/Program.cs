@@ -35,13 +35,9 @@
     {
       string dbPath = Path.Combine(Directory.GetCurrentDirectory(), "InventoryDB.db");
       DatabaseManagerSQLite manager = new DatabaseManagerSQLite(dbPath);
-      Dictionary<string, string> columns = new Dictionary<string, string>
+      List<SqlColumnDefinition> columns = new List<SqlColumnDefinition>
       {
-          { "Id", "INTEGER PRIMARY KEY AUTOINCREMENT" },
-          { "Name", "TEXT NOT NULL" },
-          { "Description", "TEXT NOT NULL" },
-          { "Price", "REAL CHECK (Price >= 0)" },
-          { "StockQuantity", "INTEGER CHECK (StockQuantity >= 0)" }
+          new SqlColumnDefinition("ID", SqlType.INTEGER, "PRIMARY KEY AUTOINCREMENT")
       };
       manager.Connect();
       manager.CreateTable("Products", columns);

@@ -16,9 +16,9 @@ namespace MyClasses
             connection.Open();
         }
 
-        public void CreateTable(string tableName, Dictionary<string, string> columns)
+        public void CreateTable(string tableName, List<SqlColumnDefinition> columns)
         {
-            string columnsDef = string.Join(", ", columns.Select(col => $"{col.Key} {col.Value}"));
+            string columnsDef = string.Join(", ", columns.Select(col => col.ToString()));
             string query = $"CREATE TABLE IF NOT EXISTS {tableName} ({columnsDef})";
 
             using (var command = new SqliteCommand(query, connection))
