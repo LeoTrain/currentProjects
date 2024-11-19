@@ -5,7 +5,7 @@ namespace MenuFramework
    public class MenuWindow : Window
    {
         private string _title = "Menu";
-        protected List<string> _options = new List<string>();
+        protected Dictionary<string, Action> _options = new Dictionary<string, Action>();
         protected int _selectedOption = 0;
 
         public string Title
@@ -21,7 +21,7 @@ namespace MenuFramework
                 _title = value;
             }
         }
-        public List<string> Options
+        public Dictionary<string, Action> Options
         {
             get { return _options; }
             private set
@@ -30,13 +30,13 @@ namespace MenuFramework
             }
         }
 
-        public MenuWindow() : this(80, 20, "Menu", new List<string>()) {}
-        public MenuWindow(double width, double height) : this(width, height, "Menu", new List<string>()) {}
-        public MenuWindow(string title) : this(Console.WindowWidth, Console.WindowHeight, title, new List<string>()) {}
-        public MenuWindow(List<string> options) : this(Console.WindowWidth, Console.WindowHeight, "Menu", options) {}
-        public MenuWindow(double width, double height, string title) : this(width, height, title, new List<string>()) {}
-        public MenuWindow(double width, double height, List<string> options) : this(width, height, "Menu", options) {}
-        public MenuWindow(double width, double height, string title, List<string> options) :base(width, height)
+        public MenuWindow() : this(80, 20, "Menu", new Dictionary<string, Action>()) {}
+        public MenuWindow(double width, double height) : this(width, height, "Menu", new Dictionary<string, Action>()) {}
+        public MenuWindow(string title) : this(Console.WindowWidth, Console.WindowHeight, title, new Dictionary<string, Action>()) {}
+        public MenuWindow(Dictionary<string, Action> options) : this(Console.WindowWidth, Console.WindowHeight, "Menu", options) {}
+        public MenuWindow(double width, double height, string title) : this(width, height, title, new Dictionary<string, Action>()) {}
+        public MenuWindow(double width, double height, Dictionary<string, Action> options) : this(width, height, "Menu", options) {}
+        public MenuWindow(double width, double height, string title, Dictionary<string, Action> options) :base(width, height)
         {
            Title = title;
            Options = options;
@@ -68,9 +68,10 @@ namespace MenuFramework
         {
             int yStart = ((int)_height - _options.Count()) / 2;
             int xStart;
+            List<string> optionKeys = _options.Keys.ToList();
             for (int i = 0; i < _options.Count(); i++) 
             {
-                string opt = _options[i];
+                string opt = optionKeys[i];
                 xStart = ((int)_width - opt.Length) / 2;
                 Console.SetCursorPosition(xStart, yStart++);
                 if (i == _selectedOption)
@@ -79,7 +80,6 @@ namespace MenuFramework
                     Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine(opt);
             }
-
             Console.ForegroundColor = ConsoleColor.White;
         }
 
@@ -88,12 +88,15 @@ namespace MenuFramework
             base.UserInput(out key);
             if (!string.IsNullOrEmpty(key))
             {
-                if (key == "w")
-                    if (_selectedOption > 0)
-                        _selectedOption--;
-                if (key == "s")
-                    if (_selectedOption < _options.Count() - 1)
-                        _selectedOption++;
+                if (key == "w" && _selectedOption > 0)
+                    _selectedOption--;
+                else if (key == "s" && _selectedOption < _options.Count() - 1)
+                    _selectedOption++;
+                else if (key == "enter")
+                {
+                    string selectedOption = _options.Keys.ToList()[_selectedOption];
+                    _options[selectedOption]?.Invoke();
+                }
             }
         }
    }

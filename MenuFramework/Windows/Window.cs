@@ -54,7 +54,7 @@ namespace MenuFramework
 
                 Display();
 
-                System.Threading.Thread.Sleep(100);
+                System.Threading.Thread.Sleep(200);
             }
         }
 
