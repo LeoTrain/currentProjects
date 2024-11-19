@@ -50,7 +50,7 @@ namespace MenuFramework
                 string userInput;
                 UserInput(out userInput);
                 if (!string.IsNullOrEmpty(userInput))
-                    if (userInput == "quit") break;
+                    if (userInput == "q") break;
 
                 Display();
 
@@ -70,8 +70,7 @@ namespace MenuFramework
             if (Console.KeyAvailable)
             {
                 var inputKey = Console.ReadKey(intercept: true).Key;
-                if (inputKey == ConsoleKey.Q) key = "quit";
-                else key = inputKey.ToString();
+                key = inputKey.ToString().ToLower();
             }
         }
 
