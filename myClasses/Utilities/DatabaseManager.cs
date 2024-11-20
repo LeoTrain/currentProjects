@@ -4,7 +4,7 @@ namespace MyClasses
 {
     public class DatabaseManagerSQLite
     {
-        private SqliteConnection connection;
+        protected SqliteConnection connection;
 
         public DatabaseManagerSQLite(string dbName)
         {

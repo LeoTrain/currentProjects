@@ -28,5 +28,14 @@ namespace MyClasses
         }
 
         public override string ToString() => $"ID: {ID}, {Name} ${Price.Value:2F}, {Details.Dimension}";
+
+        public static Product EmptyProduct()
+        {
+          SupplierInfo supplier = new SupplierInfo(new Name("NoName", "NoName"), new ContactInfo(new Email("noEmail", "noEmail", "no"), new Phone(11, 111, 11111)));
+          ProductDetails details = new ProductDetails(0, new Dimensions(1, 1, 1));
+          Pricing price = new Pricing(0);
+          Stock stock = new Stock(0);
+          return new Product(0, "NULL", "NULL", supplier, details, price, stock);
+        }
     }
 }

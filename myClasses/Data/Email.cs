@@ -45,5 +45,28 @@ namespace MyClasses
       DomainName = domainName;
       TopLevelDomain = topLevelDomain;
     }
+
+    public override string ToString() => $"{LocalPart}@{DomainName}.{TopLevelDomain}";
+
+    public static Email FromString(string emailString)
+    {
+        string local;
+        string domain;
+        string tld;
+
+        string[] parts = emailString.Split("@");
+        if (parts.Length != 2)
+            throw new ArgumentException("Invalid email format.");
+
+        local = parts[0];
+        string[] domains = parts[1].Split(".");
+        if (domains.Length != 2)
+            throw new ArgumentException("Invalid email format.");
+        domain = domains[0];
+        tld = domains[1];
+
+        return new Email(local, domain, tld);
+    }
+      
   }
 }
