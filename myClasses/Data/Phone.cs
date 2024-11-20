@@ -54,13 +54,13 @@ namespace MyClasses
         if (!phoneString.StartsWith("+"))
             throw new ArgumentException("Phone number must start with a '+' for the country code.");
 
-        string countryCodeString = phoneString.Substring(1, 4);
+        string countryCodeString = phoneString.Substring(1, 3);
         if (!int.TryParse(countryCodeString, out int countryCode))
             throw new ArgumentException("Invalid country code in phone number.");
-        string regionalCodeString = phoneString.Substring(4, 8);
+        string regionalCodeString = phoneString.Substring(4, 3);
         if (!int.TryParse(regionalCodeString, out int regionalCode))
             throw new ArgumentException("Invalid regional code in phone number.");
-        string localNumberString = phoneString.Substring(8);
+        string localNumberString = phoneString.Substring(7);
         if (!int.TryParse(localNumberString, out int localCode))
             throw new ArgumentException("Invalid local code in phone number.");
 

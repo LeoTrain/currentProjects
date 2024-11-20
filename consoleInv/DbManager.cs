@@ -7,7 +7,7 @@ namespace consoleInv
     {
         public DbManager(string filePath) : base(filePath)
         {
-            List<SqlColumnDefinition> columns = new List<SqlColumnDefinition>
+            List<SqlColumnDefinition> userColumns = new List<SqlColumnDefinition>
             {
                 new SqlColumnDefinition("ID", SqlType.INTEGER, "PRIMARY KEY AUTOINCREMENT"),
                 new SqlColumnDefinition("Username", SqlType.TEXT, "NOT NULL"),
@@ -15,8 +15,19 @@ namespace consoleInv
                 new SqlColumnDefinition("Email", SqlType.TEXT, "NOT NULL"),
 
             };
+            List<SqlColumnDefinition> productColumns = new List<SqlColumnDefinition>
+            {
+                new SqlColumnDefinition("ID", SqlType.INTEGER, "PRIMARY KEY AUTOINCREMENT"),
+                new SqlColumnDefinition("Name", SqlType.TEXT, "NOT NULL"),
+                new SqlColumnDefinition("Description", SqlType.TEXT, "NOT NULL"),
+                new SqlColumnDefinition("StockQuantity", SqlType.INTEGER, "DEFAULT 0"),
+                new SqlColumnDefinition("Price", SqlType.REAL, "DEFAULT 0.0"),
+                new SqlColumnDefinition("Weight", SqlType.REAL, "DEFAULT 0.0"),
+                new SqlColumnDefinition("Dimensions", SqlType.TEXT, "NOT NULL"),
+            };
             Connect();
-            CreateTable("Users", columns);
+            CreateTable("Users", userColumns);
+            CreateTable("Products", productColumns);
             Close();
         }
 
@@ -38,6 +49,31 @@ namespace consoleInv
             catch (Exception ex)
             {
                 Console.WriteLine($"Error adding user: {ex.Message}");
+                return false;
+            }
+        }
+
+        public bool AddProduct(Product product)
+        {
+            Dictionary<string, object> newProduct = new Dictionary<string, object>
+            {
+                {"Name", product.Name},
+                {"Description", product.Description},
+                {"StockQuantity", product.Stock.StockQuantity},
+                {"Price", product.Price.Value},
+                {"Weight", product.Details.Weight},
+                {"Dimensions", product.Details.Dimension.ToString()}
+            };
+            try
+            {
+                Connect();
+                InsertData("Products", newProduct);
+                Close();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error adding product: {ex.Message}");
                 return false;
             }
         }
@@ -81,6 +117,7 @@ namespace consoleInv
             Close();
             return users;
         }
+
     }
 }
 
