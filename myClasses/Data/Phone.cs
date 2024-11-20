@@ -53,22 +53,18 @@ namespace MyClasses
         phoneString = phoneString.Trim().Replace(" ", "").Replace("-", "");
         if (!phoneString.StartsWith("+"))
             throw new ArgumentException("Phone number must start with a '+' for the country code.");
-        int endIndex = phoneString.IndexOf(' ', 1);
-        if (endIndex == -1)
-            endIndex = phoneString.Length;
 
-        string countryCodeString = phoneString.Substring(1, endIndex - 1);
+        string countryCodeString = phoneString.Substring(1, 4);
         if (!int.TryParse(countryCodeString, out int countryCode))
             throw new ArgumentException("Invalid country code in phone number.");
+        string regionalCodeString = phoneString.Substring(4, 8);
+        if (!int.TryParse(regionalCodeString, out int regionalCode))
+            throw new ArgumentException("Invalid regional code in phone number.");
+        string localNumberString = phoneString.Substring(8);
+        if (!int.TryParse(localNumberString, out int localCode))
+            throw new ArgumentException("Invalid local code in phone number.");
 
-        string restOfNumber = phoneString.Substring(endIndex).Trim();
-        if (string.IsNullOrEmpty(restOfNumber))
-            throw new ArgumentException("The rest of the phone number cannot be empty.");
-
-        string areaCodeString = restOfNumber.Substring(0, 3);
-        string localNumberString = restOfNumber.Substring(3);
-
-        return new Phone(int.Parse(countryCodeString), int.Parse(areaCodeString), int.Parse(localNumberString));
+        return new Phone(countryCode, regionalCode, localCode);
     }
   }
 }
