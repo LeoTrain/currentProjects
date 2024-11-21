@@ -39,6 +39,13 @@ namespace MyClasses
       }
     }
 
+    public Email()
+    {
+        LocalPart = "noemail";
+        DomainName = "nomail";
+        TopLevelDomain = "no";
+    }
+
     public Email(string localPart, string domainName, string topLevelDomain)
     {
       LocalPart = localPart;

@@ -39,6 +39,13 @@ namespace MyClasses
       }
     }
 
+    public Phone()
+    {
+        CountryCode = 00;
+        RegionalCode = 000;
+        LocalCode = 0000000;
+    }
+
     public Phone(int countryCode, int regionalCode, int localCode)
     {
       CountryCode = countryCode;
