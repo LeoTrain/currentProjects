@@ -11,6 +11,35 @@ namespace consoleInv
             _dbManager = new DbManager(Path.Combine(Directory.GetCurrentDirectory(), "DataBase.db"));
         }
 
+        public void Display()
+        {
+            Console.Clear();
+            List<Product> products = _dbManager.GetProducts();
+            if (products.Count == 0)
+            {
+                Console.WriteLine("No products to display.");
+                return;
+            }
+            int maxProductNameLength = products.Max(product => product.Name.Length);
+            int maxDescriptionLength = products.Max(product => product.Description.Length);
+            int maxStockQuantityLength = products.Max(product => product.Stock.StockQuantity.ToString().Length);
+            int maxPriceLength = products.Max(product => product.Price.Value.ToString().Length);
+            int maxWeightLength = products.Max(product => product.Details.Weight.ToString().Length);
+            int maxDimensionLength = products.Max(product => product.Details.Dimension.ToString().Length);
+            int boxWidth = Math.Max(50, "ID".Length + maxProductNameLength + maxDescriptionLength + maxStockQuantityLength + maxPriceLength + maxWeightLength + maxDimensionLength + 15);
+            string format = $"| {{0,-5}} | {{1,-{maxProductNameLength}}} | {{2,-{maxDescriptionLength}}} | {{3,-{maxStockQuantityLength}}} | {{4,-{maxPriceLength}}} | {{5,-{maxWeightLength}}} | {{6,-{maxDimensionLength}}} |";
+
+            Console.WriteLine(new string('-', boxWidth));
+            Console.WriteLine(format, "ID", "Name", "Description", "Stock", "Price", "Weight", "Dimensions");
+            Console.WriteLine(new string('-', boxWidth));
+
+            foreach (Product product in products)
+                Console.WriteLine(format, product.ID, product.Name, product.Description, product.Stock.StockQuantity.ToString(), product.Price.Value.ToString(), product.Details.Weight.ToString(), product.Details.Dimension.ToString());
+
+            Console.WriteLine(new string('-', boxWidth));
+            Console.ReadLine();
+        }
+
         public void Show()
         {
             Console.Clear();

@@ -20,6 +20,7 @@ namespace consoleInv
                 Console.WriteLine("1. Add User");
                 Console.WriteLine("2. Show Users");
                 Console.WriteLine("3. Add Product");
+                Console.WriteLine("4. List Products");
                 Console.WriteLine("Q. Quit");
 
                 ConsoleKeyInfo keyInfo = Console.ReadKey(true);
@@ -40,6 +41,9 @@ namespace consoleInv
                 {
                     _addProductPage.Show();
                 }
+                else if (keyInfo.Key == ConsoleKey.D4)
+                    _addProductPage.Display();
+
                 Console.WriteLine($"You chose option: {keyInfo.Key}");
                 Thread.Sleep(3000);
             }

@@ -89,6 +89,31 @@ namespace consoleInv
             return false;
         }
 
+        public List<Product> GetProducts()
+        {
+            List<Product> products = new List<Product>(); 
+            Connect();
+            string query = "SELECT * FROM Products";
+            using (var command = new SqliteCommand(query, connection))
+            using (var reader = command.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    try
+                    {
+                        Product product = Product.EmptyProduct();
+                        products.Add(product);
+                    }
+                    catch (Exception exc)
+                    {
+                        Console.WriteLine($"Exception occured : {exc.Message}");
+                    }
+                }
+            }
+            Close();
+            return products;
+        }
+
         public List<User> GetUsers()
         {
             List<User> users = new List<User>(); 
