@@ -11,6 +11,7 @@ namespace Client
         private bool _isRunning;
         private readonly List<User> _connectedUsers = new();
         private readonly List<string> _currentChat = new();
+        private static List<ConsoleColor> _usedColors = new();
         private User _thisUser;
 
         public Clients()
@@ -161,7 +162,8 @@ namespace Client
         {
             if (_connectedUsers.Any(u => u.Name == username)) return;
 
-            var newUser = new User(username, new TcpClient()) { Color = RandomColor() };
+            User newUser = new User(username, new TcpClient()) { Color = RandomColor() };
+            _usedColors.Add(newUser.Color);
             _connectedUsers.Add(newUser);
         }
 
@@ -178,7 +180,12 @@ namespace Client
 
         private static ConsoleColor RandomColor()
         {
-            return (ConsoleColor)new Random().Next((int)ConsoleColor.Black, (int)ConsoleColor.White);
+            ConsoleColor rdColor;
+            do
+            {
+                rdColor = (ConsoleColor)new Random().Next((int)ConsoleColor.Black, (int)ConsoleColor.White);
+            } while (_usedColors.Contains(rdColor));
+            return rdColor;
         }
 
         private void Disconnect()
