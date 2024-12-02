@@ -3,7 +3,7 @@ using System.Net.Sockets;
 
 namespace Client
 {
-    class Clients
+    partial class Clients
     {
         private const int Port = 6000;
         private const string ServerAddress = "192.168.1.11";
@@ -44,12 +44,6 @@ namespace Client
             }
         }
 
-        private string GetUsernameFromInput()
-        {
-            Console.Write("Enter your username: ");
-            return Console.ReadLine()?.Trim() ?? string.Empty;
-        }
-
         private async Task ConnectToServer()
         {
             _isRunning = true;
@@ -62,31 +56,6 @@ namespace Client
             byte[] data = Encoding.UTF8.GetBytes(_thisUser.Name);
             await _thisUser.Client.GetStream().WriteAsync(data, 0, data.Length);
         }
-
-        private void Display()
-        {
-            Console.Clear();
-            Console.SetCursorPosition(0, 0);
-
-            foreach (string message in _currentChat)
-            {
-                DisplayMessage(message);
-            }
-
-            Console.SetCursorPosition(0, Console.WindowHeight - 2);
-            Console.Write("Enter your message: ");
-        }
-
-        private void DisplayMessage(string message)
-        {
-            string username = GetUsernameFromMessage(message);
-            User user = _connectedUsers.FirstOrDefault(u => u.Name == username) ?? new User("Unknown", null) { Color = ConsoleColor.Gray };
-
-            Console.ForegroundColor = user.Color;
-            Console.WriteLine(message);
-            Console.ResetColor();
-        }
-
         private async Task HandleInput()
         {
             while (_isRunning)
@@ -165,17 +134,6 @@ namespace Client
             User newUser = new User(username, new TcpClient()) { Color = RandomColor() };
             _usedColors.Add(newUser.Color);
             _connectedUsers.Add(newUser);
-        }
-
-        private static string FormatMessage(User user, MessageDetails message)
-        {
-            return $"{message.SentTime:HH:mm} - {user.Name}: {message.Message}";
-        }
-
-        private static string GetUsernameFromMessage(string message)
-        {
-            string[] parts = message.Split(" - ");
-            return parts.Length > 1 ? parts[1].Split(':')[0] : "Unknown";
         }
 
         private static ConsoleColor RandomColor()
