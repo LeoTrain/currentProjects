@@ -1,6 +1,6 @@
 #include <unistd.h>
 
-unsigned int ft_strlen(char *str)
+unsigned int ft_unsigned_strlen(char *str)
 {
     unsigned int length = 0;
     while (str[length] != 0)
@@ -22,7 +22,7 @@ void print_base(unsigned int nbr, char *base, unsigned int base_length)
 
 void ft_putnbr_base(int nbr, char *base)
 {
-    unsigned int base_length = ft_strlen(base);
+    unsigned int base_length = ft_unsigned_strlen(base);
     if (base_length <= 1)
         return;
 
