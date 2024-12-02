@@ -20,7 +20,7 @@ namespace Client
             _windowWidth = Console.WindowWidth;
             _windowHeight = Console.WindowHeight - 2;
             _messages = new List<string>();
-            _serverAddress = "127.0.0.1";
+            _serverAddress = "192.168.1.11";
             _port = 6000;
             _client = new TcpClient();
             _username = "";
