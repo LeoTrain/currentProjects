@@ -5,49 +5,85 @@ namespace Client
 {
     class Clients
     {
-        private int _windowWidth;
-        private int _windowHeight;
-        private List<string> _messages;
-        private string _serverAddress;
-        private int _port;
+        private const int Port = 6000;
+        private const string ServerAddress = "192.168.1.11";
+
         private bool _isRunning;
-        private TcpClient _client;
-        private string _username;
-        private Dictionary<string, ConsoleColor> _connectedUsers;
+        private readonly List<User> _connectedUsers = new();
+        private readonly List<string> _currentChat = new();
+        private User _thisUser;
 
         public Clients()
         {
-            _windowWidth = Console.WindowWidth;
-            _windowHeight = Console.WindowHeight - 2;
-            _messages = new List<string>();
-            _serverAddress = "192.168.1.11";
-            _port = 6000;
-            _client = new TcpClient();
-            _username = "";
-            _connectedUsers = new Dictionary<string, ConsoleColor>();
+            _thisUser = new User("EmptyName", new TcpClient());
+        }
+
+        public async Task StartAsync()
+        {
+            try
+            {
+                string username = GetUsernameFromInput();
+                if (string.IsNullOrEmpty(username)) return;
+
+                _thisUser = new User(username, new TcpClient()) { Color = RandomColor() };
+                _connectedUsers.Add(_thisUser);
+
+                await ConnectToServer();
+                await SendUsernameToServer();
+
+                await Task.WhenAll(ListenForMessages(), HandleInput());
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+            finally
+            {
+                Disconnect();
+            }
+        }
+
+        private string GetUsernameFromInput()
+        {
+            Console.Write("Enter your username: ");
+            return Console.ReadLine()?.Trim() ?? string.Empty;
+        }
+
+        private async Task ConnectToServer()
+        {
+            _isRunning = true;
+            await _thisUser.Client.ConnectAsync(ServerAddress, Port);
+            Console.WriteLine($"Connected to server {ServerAddress}:{Port}");
+        }
+
+        private async Task SendUsernameToServer()
+        {
+            byte[] data = Encoding.UTF8.GetBytes(_thisUser.Name);
+            await _thisUser.Client.GetStream().WriteAsync(data, 0, data.Length);
         }
 
         private void Display()
         {
             Console.Clear();
             Console.SetCursorPosition(0, 0);
-            foreach (string message in _messages)
+
+            foreach (string message in _currentChat)
             {
-                string[] parts = message.Split(":", 2);
-                if (parts.Length == 2 && _connectedUsers.ContainsKey(parts[0]))
-                {
-                    Console.ForegroundColor = _connectedUsers[parts[0]];
-                }
-                else
-                {
-                    Console.ForegroundColor = ConsoleColor.Gray;
-                }
-                Console.WriteLine(message);
-                Console.ForegroundColor = ConsoleColor.White;
+                DisplayMessage(message);
             }
 
-            Console.SetCursorPosition(0, _windowHeight);
+            Console.SetCursorPosition(0, Console.WindowHeight - 2);
             Console.Write("Enter your message: ");
+        }
+
+        private void DisplayMessage(string message)
+        {
+            string username = GetUsernameFromMessage(message);
+            User user = _connectedUsers.FirstOrDefault(u => u.Name == username) ?? new User("Unknown", null) { Color = ConsoleColor.Gray };
+
+            Console.ForegroundColor = user.Color;
+            Console.WriteLine(message);
+            Console.ResetColor();
         }
 
         private async Task HandleInput()
@@ -55,84 +91,101 @@ namespace Client
             while (_isRunning)
             {
                 Display();
+
                 string? input = Console.ReadLine();
+                if (string.IsNullOrEmpty(input)) continue;
 
-                if (string.IsNullOrEmpty(input))
-                    continue;
+                var message = new MessageDetails(input);
+                _thisUser.NewMessage(message);
 
-                byte[] data = Encoding.UTF8.GetBytes($"{_username}: {input}");
-                await _client.GetStream().WriteAsync(data, 0, data.Length);
-                _messages.Add($"Me: {input}");
+                _currentChat.Add(FormatMessage(_thisUser, message));
+                await SendMessageToServer(input);
             }
+        }
+
+        private async Task SendMessageToServer(string message)
+        {
+            string formattedMessage = $"MESSAGE:{_thisUser.Name}:{message}";
+            byte[] data = Encoding.UTF8.GetBytes(formattedMessage);
+            await _thisUser.Client.GetStream().WriteAsync(data, 0, data.Length);
         }
 
         private async Task ListenForMessages()
         {
             byte[] buffer = new byte[1024];
-            NetworkStream stream = _client.GetStream();
+            NetworkStream stream = _thisUser.Client.GetStream();
 
             while (_isRunning)
             {
                 int bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length);
-                if (bytesRead > 0)
-                {
-                    string message = Encoding.UTF8.GetString(buffer, 0, bytesRead);
-                    _messages.Add(message);
+                if (bytesRead <= 0) continue;
 
-                    // Adding new users to _connectedUsers
-                    string[] parts = message.Split(":");
-                    string user = parts[0];
-                    if (!_connectedUsers.ContainsKey(user))
-                    {
-                        _connectedUsers[user] = RandomColor();
-                    }
-
-                    Display();
-                }
+                ProcessReceivedMessage(Encoding.UTF8.GetString(buffer, 0, bytesRead));
+                Display();
             }
         }
 
-        public async Task StartAsync()
+        private void ProcessReceivedMessage(string receivedContent)
         {
-            try
-            {
-                Console.Write("Enter your username: ");
-                _username = Console.ReadLine() ?? "NoUsername";
+            string? username = null;
+            string message = string.Empty;
 
-                if (string.IsNullOrEmpty(_username))
+            if (receivedContent.StartsWith("CONNECTION:"))
+            {
+                username = receivedContent[11..];
+                message = $"{username} has connected to the room.";
+            }
+            else if (receivedContent.StartsWith("MESSAGE:"))
+            {
+                var parts = receivedContent[8..].Split(':', 2);
+                if (parts.Length == 2)
                 {
-                    Console.WriteLine("Username cannot be empty.");
-                    return ;
+                    username = parts[0];
+                    message = parts[1];
                 }
-
-                _isRunning = true;
-                await _client.ConnectAsync(_serverAddress, _port);
-                Console.WriteLine($"Connected to server {_serverAddress}:{_port}");
-
-                byte[] data = Encoding.UTF8.GetBytes(_username);
-                await _client.GetStream().WriteAsync(data, 0, _username.Length);
-
-                Task listenTask = ListenForMessages();
-                Task inputTask = HandleInput();
-
-                await Task.WhenAll(listenTask, inputTask);
             }
-            catch (Exception exception)
+            else if (receivedContent.StartsWith("DISCONNECT:"))
             {
-                Console.WriteLine($"Error starting async: {exception}");
+                username = receivedContent[11..];
+                message = $"{username} has disconnected from the room.";
             }
-            finally
+
+            if (!string.IsNullOrEmpty(username))
             {
-                _client.Close();
-                Console.WriteLine("Disconnected from server.");
+                AddUserIfNotExists(username);
+                _currentChat.Add(FormatMessage(_connectedUsers.First(u => u.Name == username), new MessageDetails(message)));
             }
         }
 
-        private ConsoleColor RandomColor()
+        private void AddUserIfNotExists(string username)
         {
-            Random random = new Random();
-            ConsoleColor randomColor = (ConsoleColor) random.Next((int)ConsoleColor.Black, (int)ConsoleColor.Yellow);
-            return randomColor;
+            if (_connectedUsers.Any(u => u.Name == username)) return;
+
+            var newUser = new User(username, new TcpClient()) { Color = RandomColor() };
+            _connectedUsers.Add(newUser);
+        }
+
+        private static string FormatMessage(User user, MessageDetails message)
+        {
+            return $"{message.SentTime:HH:mm} - {user.Name}: {message.Message}";
+        }
+
+        private static string GetUsernameFromMessage(string message)
+        {
+            string[] parts = message.Split(" - ");
+            return parts.Length > 1 ? parts[1].Split(':')[0] : "Unknown";
+        }
+
+        private static ConsoleColor RandomColor()
+        {
+            return (ConsoleColor)new Random().Next((int)ConsoleColor.Black, (int)ConsoleColor.White);
+        }
+
+        private void Disconnect()
+        {
+            _isRunning = false;
+            _thisUser.Client.Close();
+            Console.WriteLine("Disconnected from server.");
         }
     }
 }
