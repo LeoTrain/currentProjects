@@ -1,11 +1,16 @@
-﻿namespace Client
+﻿using Terminal.Gui;
+
+namespace Client
 {
    class Program
    {
-       static async Task Main(string[] args)
+       static void Main(string[] args)
        {
+           Application.Init();
            Clients client = new Clients();
-           await client.StartAsync();
+           /*await client.StartAsync();*/
+           client.Start();
+           Application.Shutdown();
        }
    }
 }
