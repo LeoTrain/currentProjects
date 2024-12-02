@@ -50,8 +50,9 @@ namespace TcpServer
                 // Add user and notify others
                 var currentUser = new User(username, client);
                 _users.Add(currentUser);
+                Console.ForegroundColor = ConsoleColor.Green;
                 await BroadcastMessageAsync($"CONNECTION:{currentUser.Name}", currentUser);
-                Console.WriteLine($"{currentUser.Name} has joined the chat.");
+                Console.ForegroundColor = ConsoleColor.White;
 
                 // Listen for messages
                 while (_isRunning && client.Connected)
@@ -63,10 +64,10 @@ namespace TcpServer
                     if (messageContent.StartsWith("MESSAGE:"))
                     {
                         currentUser.NewMessage(new MessageDetails(messageContent));
+                        Console.ForegroundColor = ConsoleColor.Blue;
                         await BroadcastMessageAsync(messageContent, currentUser);
+                        Console.ForegroundColor = ConsoleColor.White;
                     }
-
-
                 }
             }
             catch (Exception ex)
@@ -85,8 +86,9 @@ namespace TcpServer
             if (user != null)
             {
                 _users.Remove(user);
+                Console.ForegroundColor = ConsoleColor.Magenta;
                 await BroadcastMessageAsync($"DISCONNECT:{user.Name}", user);
-                Console.WriteLine($"{user.Name} has left the chat.");
+                Console.ForegroundColor = ConsoleColor.White;
                 user.Client.Close();
             }
         }
@@ -106,7 +108,9 @@ namespace TcpServer
                 }
                 catch (Exception)
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine($"Failed to send message to {user.Name}. Removing user.");
+                    Console.ForegroundColor = ConsoleColor.White;
                     user.Client.Close();
                     _users.Remove(user);
                 }
