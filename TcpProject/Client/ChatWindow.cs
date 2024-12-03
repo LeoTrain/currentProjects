@@ -65,8 +65,8 @@ namespace Client
                 {
                     Application.MainLoop.Invoke(() =>
                     {
-                        string currentMessages = _messageDisplay.Text.ToString() ?? "";
-                        _messageDisplay.Text = currentMessages + $"{DateTime.Now:HH:mm}: {message}\n";
+                        AddMessageToDisplay(message);
+                        SendMessageToServer(message);
                     });
                     inputField.Text = "==> ";
                 }
@@ -96,6 +96,7 @@ namespace Client
             AddUserName(username);
             await ConnectToServer();
             await SendUsernameToServer();
+            await ListenForMessages();
         }
 
         private async Task ConnectToServer()
@@ -116,13 +117,68 @@ namespace Client
                     MessageBox.ErrorQuery("Error", $"Not able to connect", "OK");
                 });
             }
-
         }
 
         private async Task SendUsernameToServer()
         {
             byte[] data = Encoding.UTF8.GetBytes(_thisUser.Name);
             await _thisUser.Client.GetStream().WriteAsync(data, 0, data.Length);
+        }
+
+        private async Task ListenForMessages()
+        {
+            byte[] buffer = new byte[1024];
+            NetworkStream stream = _thisUser.Client.GetStream();
+
+            while (_isRunning)
+            {
+                int bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length);
+                if (bytesRead <= 0) continue;
+
+                ProcessReceivedMessage(Encoding.UTF8.GetString(buffer, 0, bytesRead));
+            }
+        }
+
+        private async void SendMessageToServer(string message)
+        {
+            string formattedMessage = $"MESSAGE:{_thisUser.Name}:{message}";
+            byte[] data = Encoding.UTF8.GetBytes(formattedMessage);
+            await _thisUser.Client.GetStream().WriteAsync(data, 0, data.Length);
+        }
+
+
+        private void ProcessReceivedMessage(string receivedContent)
+        {
+            string? username = null;
+            string message = string.Empty;
+
+            if (receivedContent.StartsWith("CONNECTION:"))
+            {
+                username = receivedContent[11..];
+                message = $"{username} has connected to the room.";
+            }
+            else if (receivedContent.StartsWith("MESSAGE:"))
+            {
+                var parts = receivedContent[8..].Split(':', 2);
+                if (parts.Length == 2)
+                {
+                    username = parts[0];
+                    message = parts[1];
+                    string completeMessage = $"{DateTime.Now:HH:mm} - {username}:{message}";
+                    AddMessageToDisplay(completeMessage);
+                }
+            }
+            else if (receivedContent.StartsWith("DISCONNECT:"))
+            {
+                username = receivedContent[11..];
+                message = $"{username} has disconnected from the room.";
+            }
+        }
+
+        private void AddMessageToDisplay(string newMessage)
+        {
+            string currentMessages = _messageDisplay.Text.ToString() ?? "";
+            _messageDisplay.Text = currentMessages + $"{DateTime.Now:HH:mm}: {newMessage}\n";
         }
 
         public override void OnVisibleChanged()

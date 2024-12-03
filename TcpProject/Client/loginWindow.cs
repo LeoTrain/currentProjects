@@ -82,7 +82,7 @@ namespace Client
 
         private bool CheckPassword(string username, string password)
         {
-            if (username == "root" && password == "root")
+            if (username != string.Empty && password != string.Empty)
             {
                 return true;
             }
