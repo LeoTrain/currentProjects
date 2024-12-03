@@ -2,11 +2,12 @@ using Terminal.Gui;
 
 namespace Client
 {
-    partial class Clients
+    public partial class Clients
     {
         private const ConsoleColor _backgroundColor = ConsoleColor.White;
         private const ConsoleColor _foregroundColor = ConsoleColor.Black;
         string currenttxt = "";
+        string _currentUsername = "";
         private ColorScheme _mainColorScheme = new ColorScheme
         {
             Normal = Application.Driver.MakeAttribute(Color.White, Color.Blue),
@@ -103,6 +104,55 @@ namespace Client
             return chatWindow;
         }
 
+        private Window InitLoginWindow(Window chatWindow)
+        {
+            Window loginWindow = new Window("Login")
+            {
+                X = Pos.Center(),
+                Y = Pos.Center(),
+                Width = 40,
+                Height = 10,
+                ColorScheme = _gruvboxDarkColorScheme
+            };
+
+            var usernameField = new TextField("")
+            {
+                X = Pos.Center(),
+                Y = 2,
+                Width = 20
+            };
+
+            var loginBtn = new Button("Login")
+            {
+                X = Pos.Center(),
+                Y = Pos.Bottom(usernameField) + 2
+            };
+
+            loginBtn.Clicked += () =>
+            {
+                string username = usernameField.Text.ToString() ?? "";
+                if (!string.IsNullOrWhiteSpace(username))
+                {
+                    _currentUsername = username;
+                    Application.Top.Remove(loginWindow);
+                    Application.Top.Add(chatWindow);
+                    chatWindow.SetFocus();
+                }
+                else
+                {
+                    MessageBox.ErrorQuery("Error", "Please enter a username.", "OK");
+                }
+            };
+
+            loginWindow.Add(new Label("Enter Username:")
+            {
+                X = Pos.Center(),
+                Y = 1
+            }, usernameField, loginBtn);
+
+            return loginWindow;
+        }
+
         private MenuBar InitMenuBar()
         {
             MenuBar menu = new MenuBar(new MenuBarItem[]
@@ -122,14 +172,14 @@ namespace Client
         public void Start()
         {
             Terminal.Gui.Toplevel top = Application.Top;
-            Window chatWindow = InitChatWindow();
+            /*Window chatWindow = InitChatWindow();*/
+            /*Window loginWindow = InitLoginWindow(chatWindow);*/
             MenuBar menuBar = InitMenuBar();
-
-            top.Add(menuBar, chatWindow);
+            ChatWindow chatWindow = new ChatWindow();
+            LoginWindow loginWindow = new LoginWindow(chatWindow); 
+            top.Add(menuBar, loginWindow, chatWindow);
             Application.Run();
         }
-
-
 
 
 

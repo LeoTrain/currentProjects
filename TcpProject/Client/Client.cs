@@ -3,7 +3,7 @@ using System.Net.Sockets;
 
 namespace Client
 {
-    partial class Clients
+    public partial class Clients
     {
         private const int Port = 6000;
         private const string ServerAddress = "192.168.1.11";

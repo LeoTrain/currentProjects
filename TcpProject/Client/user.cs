@@ -26,5 +26,13 @@ namespace Client
             get { return Messages.LastOrDefault(); }
             private set { Messages.Add(value); }
         }
+
+        public void ChangeName(string newName)
+        {
+            if (!string.IsNullOrEmpty(newName))
+            {
+                Name = newName;
+            }
+        }
     }
 }
