@@ -20,7 +20,7 @@ namespace Client
         private readonly List<string> _currentChat = new();
         private bool _isRunning = true;
         private const int Port = 6000;
-        private const string ServerAddress = "192.168.1.108";
+        private const string ServerAddress = "192.168.90.61";
 
         public ChatWindow()
         {
@@ -146,7 +146,6 @@ namespace Client
             await _thisUser.Client.GetStream().WriteAsync(data, 0, data.Length);
         }
 
-
         private void ProcessReceivedMessage(string receivedContent)
         {
             string? username = null;
@@ -156,6 +155,7 @@ namespace Client
             {
                 username = receivedContent[11..];
                 message = $"{username} has connected to the room.";
+                AddMessageToDisplay(message);
             }
             else if (receivedContent.StartsWith("MESSAGE:"))
             {
@@ -164,7 +164,7 @@ namespace Client
                 {
                     username = parts[0];
                     message = parts[1];
-                    string completeMessage = $"{DateTime.Now:HH:mm} - {username}:{message}";
+                    string completeMessage = $"{username}: {message}";
                     AddMessageToDisplay(completeMessage);
                 }
             }
@@ -178,7 +178,7 @@ namespace Client
         private void AddMessageToDisplay(string newMessage)
         {
             string currentMessages = _messageDisplay.Text.ToString() ?? "";
-            _messageDisplay.Text = currentMessages + $"{DateTime.Now:HH:mm}: {newMessage}\n";
+            _messageDisplay.Text = currentMessages + $"{DateTime.Now:HH:mm} - {newMessage}\n";
         }
 
         public override void OnVisibleChanged()
