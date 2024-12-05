@@ -49,9 +49,11 @@ namespace TcpServer
 
                 // Add user and notify others
                 var currentUser = new User(username, client);
-                _users.Add(currentUser);
                 Console.ForegroundColor = ConsoleColor.Green;
                 await BroadcastMessageAsync($"CONNECTION:{currentUser.Name}", currentUser);
+                await SendConnectedUsers(currentUser);
+                _users.Add(currentUser);
+
                 Console.ForegroundColor = ConsoleColor.White;
 
                 // Listen for messages
@@ -89,6 +91,7 @@ namespace TcpServer
                 Console.ForegroundColor = ConsoleColor.Magenta;
                 await BroadcastMessageAsync($"DISCONNECT:{user.Name}", user);
                 Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine($"{user.Name} has left the chat.");
                 user.Client.Close();
             }
         }
@@ -120,6 +123,17 @@ namespace TcpServer
         private string GetConnectedUsers()
         {
             return System.Text.Json.JsonSerializer.Serialize(_users.Select(u => u.Name));
+        }
+
+        private async Task SendConnectedUsers(User user)
+        {
+            string connectedUsersString = "";
+            foreach(User connUser in _users)
+            {
+                connectedUsersString += $"{connUser.Name}:";
+            }
+            byte[] encoded = Encoding.UTF8.GetBytes(connectedUsersString);
+            await user.Client.GetStream().WriteAsync(encoded, 0, connectedUsersString.Length);
         }
     }
 }

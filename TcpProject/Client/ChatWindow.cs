@@ -6,6 +6,7 @@ namespace Client
 {
     public class ChatWindow : Window
     {
+        public List<string> ConnectedUsers = new();
         private ColorScheme _gruvboxDarkColorScheme = new ColorScheme
         {
             Normal = Application.Driver.MakeAttribute(Color.BrightYellow, Color.Black),
@@ -20,7 +21,7 @@ namespace Client
         private readonly List<string> _currentChat = new();
         private bool _isRunning = true;
         private const int Port = 6000;
-        private const string ServerAddress = "192.168.90.61";
+        private const string ServerAddress = "192.168.31.116";
 
         public ChatWindow()
         {
@@ -172,6 +173,15 @@ namespace Client
             {
                 username = receivedContent[11..];
                 message = $"{username} has disconnected from the room.";
+            }
+            else
+            {
+                Application.MainLoop.Invoke(
+                        () => MessageBox.Query("Hello", receivedContent, "OK"));
+                foreach (string userName in receivedContent.Split(":"))
+                {
+                    _currentChat.Add(userName);
+                }
             }
         }
 

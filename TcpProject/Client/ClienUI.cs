@@ -4,6 +4,7 @@ namespace Client
 {
     public partial class Clients
     {
+        private List<string> _connectedUsers = new();
         private const ConsoleColor _backgroundColor = ConsoleColor.White;
         private const ConsoleColor _foregroundColor = ConsoleColor.Black;
         string currenttxt = "";
@@ -40,209 +41,62 @@ namespace Client
             HotFocus = Application.Driver.MakeAttribute(Color.Red, Color.White)
         };
 
-
-        private Window InitChatWindow()
-        {
-            Window chatWindow = new Window("Chat")
-            {
-                X = 0,
-                Y = 1,
-                Width = Dim.Fill(),
-                Height = Dim.Fill(),
-                ColorScheme = _gruvboxDarkColorScheme,
-            };
-
-            TextView messageDisplay = new TextView
-            {
-                X = 0,
-                Y = 1,
-                Width = Dim.Fill(),
-                Height = Dim.Fill() - 3,
-                ReadOnly = true,
-                Text = $"You joined the chat at {DateTime.Now:HH:mm}\n"
-            };
-
-            TextField inputField = new TextField("==> ")
-            {
-                X = 1,
-                Y = Pos.Bottom(messageDisplay) + 1,
-                Width = Dim.Fill() - 12
-            };
-
-            Button sendMessageButton = new Button("Send")
-            {
-                X = Pos.Right(inputField) + 1,
-                Y = Pos.Bottom(messageDisplay) + 1
-            };
-
-            sendMessageButton.Clicked += () =>
-            {
-                string message = inputField.Text.ToString() ?? "ErrorSendMessageButton";;
-                if (!string.IsNullOrWhiteSpace(message))
-                {
-                    Application.MainLoop.Invoke(() =>
-                    {
-                        string currentMessages = messageDisplay.Text.ToString() ?? "";
-                        messageDisplay.Text = currentMessages + $"{DateTime.Now:HH:mm}: {message}\n";
-                    });
-                    inputField.Text = "==> ";
-                }
-            };
-
-            inputField.KeyPress += (args) =>
-            {
-                if (args.KeyEvent.Key == Key.Enter)
-                {
-                    sendMessageButton.OnClicked();
-                    args.Handled = true;
-                }
-            };
-
-            chatWindow.Add(inputField, messageDisplay, sendMessageButton);
-            chatWindow.FocusFirst();
-
-            return chatWindow;
-        }
-
-        private Window InitLoginWindow(Window chatWindow)
-        {
-            Window loginWindow = new Window("Login")
-            {
-                X = Pos.Center(),
-                Y = Pos.Center(),
-                Width = 40,
-                Height = 10,
-                ColorScheme = _gruvboxDarkColorScheme
-            };
-
-            var usernameField = new TextField("")
-            {
-                X = Pos.Center(),
-                Y = 2,
-                Width = 20
-            };
-
-            var loginBtn = new Button("Login")
-            {
-                X = Pos.Center(),
-                Y = Pos.Bottom(usernameField) + 2
-            };
-
-            loginBtn.Clicked += () =>
-            {
-                string username = usernameField.Text.ToString() ?? "";
-                if (!string.IsNullOrWhiteSpace(username))
-                {
-                    _currentUsername = username;
-                    Application.Top.Remove(loginWindow);
-                    Application.Top.Add(chatWindow);
-                    chatWindow.SetFocus();
-                }
-                else
-                {
-                    MessageBox.ErrorQuery("Error", "Please enter a username.", "OK");
-                }
-            };
-
-            loginWindow.Add(new Label("Enter Username:")
-            {
-                X = Pos.Center(),
-                Y = 1
-            }, usernameField, loginBtn);
-
-            return loginWindow;
-        }
-
-        private MenuBar InitMenuBar()
-        {
+         private MenuBar InitMenuBar()
+         {
             MenuBar menu = new MenuBar(new MenuBarItem[]
-                    {
-                        new MenuBarItem("_File", new MenuItem[]
-                        {
-                            new MenuItem("_Quit", "Quit the application", () => Application.RequestStop())
-                        }),
-                        new MenuBarItem("_Help", new MenuItem[]
-                        {
-                            new MenuItem("_About", "About this app", () => MessageBox.Query("About", "Blablablablabla", "ok"))
-                        }),
-                    });
+            {
+                new MenuBarItem("_File", new MenuItem[]
+                {
+                    new MenuItem("_Quit", "Quit the application", () => Application.RequestStop())
+                }),
+                new MenuBarItem("_Help", new MenuItem[]
+                {
+                    new MenuItem("_About", "About this app", () => MessageBox.Query("About", "Blablablablabla", "OK"))
+                }),
+                new MenuBarItem("_Users", new MenuItem[]
+                {
+                    new MenuItem("Users", "Show connected Users", () => ShowConnectedUsers())
+                }),
+            });
             return menu;
-        }
+         }
 
         public void Start()
         {
             Terminal.Gui.Toplevel top = Application.Top;
-            /*Window chatWindow = InitChatWindow();*/
-            /*Window loginWindow = InitLoginWindow(chatWindow);*/
             MenuBar menuBar = InitMenuBar();
             ChatWindow chatWindow = new ChatWindow();
             LoginWindow loginWindow = new LoginWindow(chatWindow); 
             top.Add(menuBar, loginWindow, chatWindow);
+            _connectedUsers = chatWindow.ConnectedUsers;
             Application.Run();
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        private void Display()
+        public void ShowConnectedUsers()
         {
-            Console.Clear();
-            Console.SetCursorPosition(0, 0);
-
-            foreach (string message in _currentChat)
+            Application.Top.MostFocused.Visible = false;
+            Window connectedUsers = new Window("Connected Users")
             {
-                DisplayMessage(message);
+                X = 0,
+                Y = 1,
+                Width = Dim.Fill() ,
+                Height = Dim.Fill(),
+                Visible = true,
+            };
+            TextView userDisplay = new TextView()
+            {
+                X = 0,
+                Y = 1,
+                Width = Dim.Fill() - 2,
+                ReadOnly = true,
+                Text = ""
+            };
+            foreach (string name in _connectedUsers)
+            {
+                userDisplay.Text += $"{name}\n";
             }
-
-            Console.SetCursorPosition(0, Console.WindowHeight - 2);
-            Console.Write("Enter your message: ");
+            connectedUsers.Add(userDisplay);
+            Application.Top.Add(connectedUsers);
         }
-
-        private void DisplayMessage(string message)
-        {
-            string username = GetUsernameFromMessage(message);
-            User user = _connectedUsers.FirstOrDefault(u => u.Name == username) ?? new User("Unknown", null) { Color = ConsoleColor.Gray };
-
-            Console.ForegroundColor = user.Color;
-            Console.WriteLine(message);
-            Console.ForegroundColor = _foregroundColor;
-            Console.ResetColor();
-        }
-
-        private string GetUsernameFromInput()
-        {
-            Console.BackgroundColor = _backgroundColor;
-            Console.ForegroundColor = _foregroundColor;
-            Console.Clear();
-            string usernameInput = "Enter your username: ";
-            Console.SetCursorPosition((Console.WindowWidth - usernameInput.Length) / 2, Console.WindowHeight / 2 );
-            Console.Write(usernameInput);
-            return Console.ReadLine()?.Trim() ?? string.Empty;
-        }
-
-        private static string FormatMessage(User user, MessageDetails message)
-        {
-            return $"{message.SentTime:HH:mm} - {user.Name}: {message.Message}";
-        }
-
-        private static string GetUsernameFromMessage(string message)
-        {
-            string[] parts = message.Split(" - ");
-            return parts.Length > 1 ? parts[1].Split(':')[0] : "Unknown";
-        }
-
-
     }
 }
