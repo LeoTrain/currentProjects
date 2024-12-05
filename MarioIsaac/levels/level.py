@@ -96,8 +96,11 @@ class Level:
     def update(self):
         self.player.update()
         for enemy in self.enemies:
-            enemy.update(self.player.rect.topleft)
-        self.collision_manager.handle_collisions([self.player] + self.enemies, self.collision_tiles)
+            enemy.updatePosition(self.player.rect.topleft)
+            self.collision_manager.handleSingleCollision(enemy, [self.player] + self.enemies, self.collision_tiles)
+            enemy.updateSprite()
+        # self.collision_manager.handle_collisions([self.player] + self.enemies, self.collision_tiles)
+        self.collision_manager.handleSingleCollision(self.player, [self.player] + self.enemies, self.collision_tiles)
         self.did_player_win()
         self._update_camera()
         pygame.display.update()

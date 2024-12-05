@@ -46,13 +46,16 @@ class Enemy(BaseCharacter):
         return can_attack
 
     def attack(self, player) -> None:
-        super().attack()
-        self.attack_start_time = time.time()
-        player.take_damage(self.attack_power)
+        if self.can_attack():
+            super().attack()
+            self.attack_start_time = time.time()
+            player.take_damage(self.attack_power)
 
     def isEnemy(self) -> bool:
         return True
 
-    def update(self, player_pos):
+    def updatePosition(self, player_pos):
         self.move_to_player(player_pos)
+
+    def updateSprite(self):
         self.animation_controller.update_sprite()

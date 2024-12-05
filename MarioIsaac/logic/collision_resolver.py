@@ -37,9 +37,10 @@ class CollisionResolver:
 
     def resolve_entity_collision(self, entity1, entity2):
         marge = 10
-        # When Entity1 (Enemy) collides with Player
-        if not (isinstance(entity1, Player) and isinstance(entity2, Enemy)):
+        # When Enemy collides with Player
+        if entity1.isEnemy() and entity2.isPlayer():
             entity1.changeMoving(False)
+            entity1.attack(entity2)
             # overlap_x = entity1.rect.centerx - entity2.rect.centerx
             # overlap_y = entity1.rect.centery - entity2.rect.centery
             #
