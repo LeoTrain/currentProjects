@@ -53,7 +53,7 @@ class CollisionResolver:
             #         entity1.rect.top = entity2.rect.bottom - marge
             #     else:
             #         entity1.rect.bottom = entity2.rect.top + marge
-        if (isinstance(entity1, Enemy)):
-            print("Isinstance")
+        # if (isinstance(entity1, Enemy)):
+        #     print("Isinstance")
 
 

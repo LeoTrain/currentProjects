@@ -16,26 +16,27 @@ class Enemy(BaseCharacter):
         return in_range
 
     def move_to_player(self, player_pos):
-        if player_pos[0] < self.rect.x:
-            x_direction = -1
-            self.current_x_direction = "left"
-        elif player_pos[0] > self.rect.x:
-            x_direction = 1
-            self.current_x_direction = "right"
-        else:
-            x_direction = 0
+        if self.can_move:
+            if player_pos[0] < self.rect.x:
+                x_direction = -1
+                self.current_x_direction = "left"
+            elif player_pos[0] > self.rect.x:
+                x_direction = 1
+                self.current_x_direction = "right"
+            else:
+                x_direction = 0
 
-        if player_pos[1] < self.rect.y:
-            y_direction = -1
-            self.current_y_direction = "up"
-        elif player_pos[1] > self.rect.y:
-            y_direction = 1
-            self.current_y_direction = "down"
-        else:
-            y_direction = 0
+            if player_pos[1] < self.rect.y:
+                y_direction = -1
+                self.current_y_direction = "up"
+            elif player_pos[1] > self.rect.y:
+                y_direction = 1
+                self.current_y_direction = "down"
+            else:
+                y_direction = 0
 
-        self.move(x_direction, y_direction)
-        self.current_state = "run"
+            self.move(x_direction, y_direction)
+            self.current_state = "run"
 
     def can_attack(self):
         can_attack = False
@@ -48,6 +49,9 @@ class Enemy(BaseCharacter):
         super().attack()
         self.attack_start_time = time.time()
         player.take_damage(self.attack_power)
+
+    def isEnemy(self):
+        return True
 
     def update(self, player_pos):
         self.move_to_player(player_pos)

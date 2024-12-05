@@ -81,14 +81,11 @@ class Player(BaseCharacter):
         background_color = (50, 50, 50)
         xp_color = (0, 0, 200)
         xp_ratio = self.xp.now_xp / self.xp.current_xp_cap
-        pygame.draw.rect(
-            screen, background_color, (bar_x, bar_y, bar_width, bar_height)
-        )
-        pygame.draw.rect(
-            screen, xp_color, (bar_x, bar_y, bar_width * xp_ratio, bar_height)
-        )
+        pygame.draw.rect(screen, background_color, (bar_x, bar_y, bar_width, bar_height))
+        pygame.draw.rect(screen, xp_color, (bar_x, bar_y, bar_width * xp_ratio, bar_height))
         font = pygame.font.SysFont(None, 30)
         level_text = font.render(f"Level: {self.xp.now_level}", True, (255, 255, 255))
-        screen.blit(
-            level_text, (bar_x, bar_y - 30)
-        )
+        screen.blit(level_text, (bar_x, bar_y - 30))
+
+    def isPlayer(self) -> bool:
+        return True

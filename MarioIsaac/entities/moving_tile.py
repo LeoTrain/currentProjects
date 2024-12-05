@@ -10,27 +10,28 @@ class MovingTile(Tile):
         self.can_move_right = True
         self.can_move_up = True
         self.can_move_down = True
+        self.can_move = True
 
     def move(self, dx, dy):
-        self.update_old_rect()
-
-        if dx < 0:
-            if self.can_move_left:
+        if (self.can_move):
+            self.update_old_rect()
+            if dx < 0:
+                if self.can_move_left:
+                    self.rect.x += dx * self.speed
+            elif dx > 0:
+                if self.can_move_right:
+                    self.rect.x += dx * self.speed
+            else:
                 self.rect.x += dx * self.speed
-        elif dx > 0:
-            if self.can_move_right:
-                self.rect.x += dx * self.speed
-        else:
-            self.rect.x += dx * self.speed
 
-        if dy < 0:
-            if self.can_move_up:
+            if dy < 0:
+                if self.can_move_up:
+                    self.rect.y += dy * self.speed
+            elif dy > 0:
+                if self.can_move_down:
+                    self.rect.y += dy * self.speed
+            else:
                 self.rect.y += dy * self.speed
-        elif dy > 0:
-            if self.can_move_down:
-                self.rect.y += dy * self.speed               
-        else:
-            self.rect.y += dy * self.speed
 
     def isMoving(self):
         return self.can_move_left or self.can_move_right or self.can_move_up or self.can_move_left
@@ -40,3 +41,4 @@ class MovingTile(Tile):
         self.can_move_right = can_move
         self.can_move_up = can_move
         self.can_move_down = can_move
+        self.can_move = False

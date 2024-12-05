@@ -29,6 +29,8 @@ class AnimationController:
         self.current_frame_index = (self.current_frame_index + 1) % total_frames
 
     def select_state_image(self):
+        if (self.entity.isEnemy()):
+            print(self.entity.current_state)
         frame_count = self.entity.frame_counts[self.entity.current_state][0]
         state_key = f"{self.entity.current_state}_{self.entity.last_pressed_direction}"
         self.entity.image = self.sprites[state_key][self.current_frame_index // frame_count]

@@ -5,7 +5,6 @@ from ..logic.sprite_loader import SpriteLoader
 from ..logic.animation_controller import AnimationController
 from ..logic.event_dick import event_dick
 
-
 class BaseCharacter(MovingTile):
     def __init__(self, display, sprite_sheet_path):
         super().__init__(display)
@@ -24,6 +23,7 @@ class BaseCharacter(MovingTile):
     def attack(self):
         self.current_state = "attack"
 
+
     def take_damage(self, damage):
         from ..entities.player import Player
         from ..entities.goblin import Goblin
@@ -35,3 +35,9 @@ class BaseCharacter(MovingTile):
             elif isinstance(self, Goblin):
                 event = pygame.event.Event(event_dick["enemy_dead"])
                 pygame.event.post(event)
+
+    def isEnemy(self):
+        return False
+
+    def isPlayer(self) -> bool:
+        return False
