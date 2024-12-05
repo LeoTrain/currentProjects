@@ -31,3 +31,12 @@ class MovingTile(Tile):
                 self.rect.y += dy * self.speed               
         else:
             self.rect.y += dy * self.speed
+
+    def isMoving(self):
+        return self.can_move_left or self.can_move_right or self.can_move_up or self.can_move_left
+
+    def changeMoving(self, can_move: bool):
+        self.can_move_left = can_move
+        self.can_move_right = can_move
+        self.can_move_up = can_move
+        self.can_move_down = can_move
