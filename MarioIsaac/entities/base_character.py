@@ -20,7 +20,7 @@ class BaseCharacter(MovingTile):
         self.current_x_direction = "right"
         self.current_y_direction = "down"
 
-    def attack(self):
+    def attack(self) -> None:
         self.current_state = "attack"
 
 
@@ -36,7 +36,7 @@ class BaseCharacter(MovingTile):
                 event = pygame.event.Event(event_dick["enemy_dead"])
                 pygame.event.post(event)
 
-    def isEnemy(self):
+    def isEnemy(self) -> bool:
         return False
 
     def isPlayer(self) -> bool:

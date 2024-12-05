@@ -45,12 +45,12 @@ class Enemy(BaseCharacter):
             can_attack = True
         return can_attack
 
-    def attack(self, player):
+    def attack(self, player) -> None:
         super().attack()
         self.attack_start_time = time.time()
         player.take_damage(self.attack_power)
 
-    def isEnemy(self):
+    def isEnemy(self) -> bool:
         return True
 
     def update(self, player_pos):

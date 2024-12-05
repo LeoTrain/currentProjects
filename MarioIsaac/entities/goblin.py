@@ -14,7 +14,7 @@ class Goblin(Enemy):
         self.frame_counts = {
             "idle": [40, 40, 40, 40],
             "run": [80, 80, 80, 80],
-            "attack": [80, 80, 80, 80],
+            "attack": [40, 40, 40, 40],
         }
         self.sprite_widths = {
             "idle": [64, 64, 64, 64],
