@@ -16,8 +16,7 @@ class Level:
         self.camera_offset_y = self.player.rect.topleft[1]
 
     def run(self, event_handler):
-        self.update()
-        event_handler.handle()
+        self.update(event_handler)
         self.render()
 
     def _load_map(self, map_path):
@@ -93,14 +92,18 @@ class Level:
         if not self.enemies:
             pygame.event.post(pygame.event.Event(event_dick["player_won"]))
 
-    def update(self):
-        self.player.update()
+    def update(self, event_handler):
+        event_handler.handle()
         for enemy in self.enemies:
             enemy.updatePosition(self.player.rect.topleft)
-            self.collision_manager.handleSingleCollision(enemy, [self.player] + self.enemies, self.collision_tiles)
+            # self.collision_manager.handleSingleCollision(enemy, [self.player] + self.enemies, self.collision_tiles)
+        self.collision_manager.handle_collisions([self.player] + self.enemies, self.collision_tiles)
+        # self.collision_manager.handleSingleCollision(self.player, [self.player] + self.enemies, self.collision_tiles)
+
+        self.player.updateSprite()
+        for enemy in self.enemies:
             enemy.updateSprite()
-        # self.collision_manager.handle_collisions([self.player] + self.enemies, self.collision_tiles)
-        self.collision_manager.handleSingleCollision(self.player, [self.player] + self.enemies, self.collision_tiles)
+
         self.did_player_win()
         self._update_camera()
         pygame.display.update()

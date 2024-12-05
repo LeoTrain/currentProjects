@@ -70,7 +70,7 @@ class Player(BaseCharacter):
                 if enemy.life_points <= 0:
                     self.xp.add_xp(enemy.xp_value)
 
-    def update(self):
+    def updateSprite(self):
         self.animation_controller.update_sprite()
 
     def draw_xp_bar(self, screen):
