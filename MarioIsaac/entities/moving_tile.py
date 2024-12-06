@@ -1,4 +1,5 @@
 from ..entities.tile import Tile
+from ..helpers.directions import Directions
 
 
 class MovingTile(Tile):
