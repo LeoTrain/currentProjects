@@ -57,16 +57,16 @@ class Level:
         sprite_sheet_path = (
             "MarioIsaac/assets/sprites/base_character/my_base_character_v3.png"
         )
-        self.player = Player(self.surface, sprite_sheet_path)
-        starting_position = self.game_map.get_player_starting_position()
-        self.player.position = starting_position
+        self.player = Player(self.surface, sprite_sheet_path, set_position=self.game_map.get_player_starting_position())
+        # print(starting_position)
         self.player.mask = pygame.mask.from_surface(self.player.image)
+        print(self.player.position, self.player.rect.topleft)
 
     def _initialise_enemies(self):
         sprite_sheet_path = "MarioIsaac/assets/sprites/orcs/my_goblin_v1.png"
         starting_positions = self.game_map.get_enemy_starting_position("goblin")
         self.enemies = [
-            Goblin(self.surface, sprite_sheet_path).with_position(pos)
+            Goblin(self.surface, sprite_sheet_path, set_position=pos)
             for pos in starting_positions
         ]
 

@@ -3,14 +3,14 @@
  <tileset firstgid="1" source="Top Down walls.tsx"/>
  <tileset firstgid="257" source="Top Down floors.tsx"/>
  <objectgroup id="4" name="Player">
-  <object id="1" name="player_spawn" x="113" y="244"/>
+  <object id="1" name="player_spawn" x="97" y="121"/>
  </objectgroup>
  <objectgroup id="5" name="Enemies">
-  <object id="3" name="goblin_1" x="419" y="230"/>
-  <object id="4" name="goblin_2" x="406.5" y="277"/>
+  <object id="3" name="goblin_1" x="175" y="250"/>
+  <object id="4" name="goblin_2" x="88" y="320"/>
   <object id="5" name="goblin_3" x="267" y="308"/>
-  <object id="7" name="goblin_4" x="416.833" y="169"/>
-  <object id="8" name="goblin_5" x="412.167" y="124.333"/>
+  <object id="7" name="goblin_4" x="273.333" y="224"/>
+  <object id="8" name="goblin_5" x="262.667" y="145.333"/>
  </objectgroup>
  <layer id="1" name="Hard Layer" width="64" height="64">
   <data encoding="csv">

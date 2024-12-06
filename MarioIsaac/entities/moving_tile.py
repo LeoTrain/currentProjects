@@ -1,11 +1,12 @@
+from pygame.mixer_music import set_pos
 from ..entities.tile import Tile
 from ..helpers.directions import Directions
 from pygame.math import Vector2
 
 
 class MovingTile(Tile):
-    def __init__(self, display):
-        super().__init__(display)
+    def __init__(self, display, set_position:Vector2):
+        super().__init__(display, set_position=set_position)
         self.speed = 0
         self.last_pressed_direction = "down"
         self.can_move_left = True

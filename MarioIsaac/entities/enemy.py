@@ -1,13 +1,14 @@
 import time
 import math
 
+from pygame.math import Vector2
 from ..helpers.directions import Directions
 from ..entities.base_character import BaseCharacter
 
 
 class Enemy(BaseCharacter):
-    def __init__(self, display, sprite_sheet):
-        super().__init__(display, sprite_sheet)
+    def __init__(self, display, sprite_sheet, set_position:Vector2=Vector2(0, 0)):
+        super().__init__(display, sprite_sheet, set_position)
 
     def _is_in_attack_range(self, player_pos):
         in_range = False

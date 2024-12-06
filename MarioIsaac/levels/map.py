@@ -1,6 +1,7 @@
 import pygame
 import pytmx
 
+from typing import List
 from pygame.math import Vector2
 from ..entities.tile import Tile
 
@@ -43,16 +44,13 @@ class Map:
             i += 1
 
     def get_player_starting_position(self) -> Vector2:
-        x_start = 0
-        y_start = 0
         scale_factor = self._calculate_scale_factor()
         for obj in self.tmx_data.objects:
             if obj.name == "player_spawn":
-                x_start = obj.x * scale_factor
-                y_start = obj.y * scale_factor
-        return (Vector2(x_start, y_start))
+                return Vector2(obj.x * scale_factor, obj.y * scale_factor)
+        return Vector2(0, 0)
 
-    def get_enemy_starting_position(self, enemy_name):
+    def get_enemy_starting_position(self, enemy_name) -> List[Vector2]:
         x_start = 0
         y_start = 0
         positions = []
@@ -61,5 +59,5 @@ class Map:
             if enemy_name in obj.name:
                 x_start = obj.x * scale_factor
                 y_start = obj.y * scale_factor
-                positions.append((x_start, y_start))
+                positions.append(Vector2(x_start, y_start))
         return positions

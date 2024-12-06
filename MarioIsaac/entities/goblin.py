@@ -2,10 +2,11 @@ import random
 import time
 
 from ..entities.enemy import Enemy
+from pygame.math import Vector2
 
 
 class Goblin(Enemy):
-    def __init__(self, display, sprite_sheet_path):
+    def __init__(self, display, sprite_sheet_path, set_position:Vector2):
         self.number_of_frames = {
             "idle": [4, 4, 4, 4],
             "run": [8, 8, 8, 8],
@@ -26,7 +27,7 @@ class Goblin(Enemy):
             "run": [64, 64, 64, 64],
             "attack": [64, 64, 64, 64],
         }
-        super().__init__(display, sprite_sheet_path)
+        super().__init__(display, sprite_sheet_path, set_position)
 
         self.image = self.sprites["idle_down"][0]
         self.current_frame_index = 0

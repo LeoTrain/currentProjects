@@ -1,12 +1,13 @@
 import time
 import pygame
 
+from pygame.math import Vector2
 from ..entities.base_character import BaseCharacter
 from ..logic.experience import Xp
 
 
 class Player(BaseCharacter):
-    def __init__(self, display, sprite_sheet_path):
+    def __init__(self, display, sprite_sheet_path, set_position:Vector2=Vector2(0, 0)):
         self.number_of_frames = {
             "idle": [12, 4, 12, 12],
             "run": [8, 8, 8, 8],
@@ -27,7 +28,7 @@ class Player(BaseCharacter):
             "run": [64, 64, 64, 64],
             "attack": [64, 64, 64, 64],
         }
-        super().__init__(display, sprite_sheet_path)
+        super().__init__(display, sprite_sheet_path, set_position)
         self.image = self.sprites["idle_down"][0]
         self.speed = 1
         self.attack_counter = 0

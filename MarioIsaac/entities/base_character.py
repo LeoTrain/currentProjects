@@ -4,10 +4,11 @@ from ..entities.moving_tile import MovingTile
 from ..logic.sprite_loader import SpriteLoader
 from ..logic.animation_controller import AnimationController
 from ..logic.event_dick import event_dick
+from pygame.math import Vector2
 
 class BaseCharacter(MovingTile):
-    def __init__(self, display, sprite_sheet_path):
-        super().__init__(display)
+    def __init__(self, display, sprite_sheet_path, set_position:Vector2):
+        super().__init__(display, set_position)
 
         self.sprite_loader = SpriteLoader(sprite_sheet_path)
         self.animation_controller = AnimationController(self.sprite_loader, self)
