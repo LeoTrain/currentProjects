@@ -1,6 +1,9 @@
 from .collision_detector import CollisionDetector
 from .collision_effect_handler import CollisionEffectHandler
 from .collision_resolver import CollisionResolver
+from typing import List
+from ..entities.base_character import BaseCharacter
+from ..entities.tile import Tile
 
 
 class CollisionManager:
@@ -9,7 +12,7 @@ class CollisionManager:
         self.collision_resolver = CollisionResolver()
         self.collision_effect_handler = CollisionEffectHandler()
 
-    def handle_collisions(self, entities, tiles):
+    def handle_collisions(self, entities:List[BaseCharacter], tiles:List[Tile]):
         for entity in entities:
             collided_tiles = self.collision_detector.detect_tile_collisions(entity, tiles)
             if collided_tiles:

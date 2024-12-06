@@ -5,7 +5,7 @@ class CollisionDetector:
     def detect_tile_collisions(self, entity, tiles):
         collided_tiles = []
         for tile in tiles:
-            if pygame.sprite.collide_mask(entity, tile):
+            if pygame.sprite.collide_rect(entity, tile):
                 collided_tiles.append(tile)
         return collided_tiles
 

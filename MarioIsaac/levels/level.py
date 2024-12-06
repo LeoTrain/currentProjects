@@ -24,9 +24,7 @@ class Level:
     def _update(self, event_handler):
         event_handler.handle()
         self._updateEnemyPositions()
-        # self.collision_manager.handle_collisions(
-        #     [self.player] + self.enemies, self.collision_tiles
-        # )
+        self.collision_manager.handle_collisions([self.player] + self.enemies, self.collision_tiles)
         self._updateSprites()
         # self._did_player_win()
         self._update_camera()
@@ -58,9 +56,7 @@ class Level:
             "MarioIsaac/assets/sprites/base_character/my_base_character_v3.png"
         )
         self.player = Player(self.surface, sprite_sheet_path, set_position=self.game_map.get_player_starting_position())
-        # print(starting_position)
         self.player.mask = pygame.mask.from_surface(self.player.image)
-        print(self.player.position, self.player.rect.topleft)
 
     def _initialise_enemies(self):
         sprite_sheet_path = "MarioIsaac/assets/sprites/orcs/my_goblin_v1.png"

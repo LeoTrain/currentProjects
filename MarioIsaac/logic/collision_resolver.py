@@ -1,39 +1,32 @@
 import pygame
-from ..entities.player import Player
-from ..entities.enemy import Enemy
-
+from pygame.math import Vector2
+from ..helpers.directions import Directions
 
 class CollisionResolver:
     def resolve_tile_collision(self, entity, tiles):
-        collision_left = False
-        collision_right = False
-        collision_up = False
-        collision_down = False
+        collision_left = collision_right = collision_up = collision_down = False
+
         for tile in tiles:
-            overlap_x = entity.rect.centerx - tile.rect.centerx
-            overlap_y = entity.rect.centery - tile.rect.centery
-            if abs(overlap_x) > abs(overlap_y):
-                if overlap_x > 0:
-                    entity.rect.left = tile.rect.right
+            overlap = entity.position - tile.position
+
+            if abs(overlap.x) > abs(overlap.y):
+                if overlap.x > 0:
+                    entity.position.x = tile.position.x + tile.rect.width
                     collision_left = True
                 else:
-                    entity.rect.right = tile.rect.left
+                    entity.position.x = tile.position.x - entity.rect.width
                     collision_right = True
             else:
-                if overlap_y > 0:
-                    entity.rect.top = tile.rect.bottom
+                if overlap.y > 0:
+                    entity.position.y = tile.position.y + tile.rect.height
                     collision_up = True
                 else:
-                    entity.rect.bottom = tile.rect.top
+                    entity.position.y = tile.position.y - entity.rect.height
                     collision_down = True
-        if collision_left:
-            entity.can_move_left = False
-        if collision_right:
-            entity.can_move_right = False
-        if collision_up:
-            entity.can_move_up = False
-        if collision_down:
-            entity.can_move_down = False
+        entity.can_move_left = not collision_left
+        entity.can_move_right = not collision_right
+        entity.can_move_up = not collision_up
+        entity.can_move_down = not collision_down
 
     def resolve_entity_collision(self, entity1, entity2):
         # marge = 10
@@ -55,6 +48,5 @@ class CollisionResolver:
             #     else:
             #         entity1.rect.bottom = entity2.rect.top + marge
         # if (isinstance(entity1, Enemy)):
-        #     print("Isinstance")
 
 

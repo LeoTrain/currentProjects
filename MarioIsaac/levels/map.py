@@ -30,8 +30,7 @@ class Map:
             if isinstance(layer, pytmx.TiledTileLayer) and "Hard" in layer.name:
                 for x, y, gid in layer:
                     if gid != 0:
-                        tile = Tile(surface)
-                        tile.position = Vector2(x * self.tile_size, y * self.tile_size)
+                        tile = Tile(surface, set_position=Vector2(x * self.tile_size, y * self.tile_size))
                         collision_tiles.append(tile)
         return collision_tiles
 
@@ -56,5 +55,4 @@ class Map:
         for obj in self.tmx_data.objects:
             if enemy_name in obj.name:
                 positions.append(Vector2(obj.x * scale_factor, obj.y * scale_factor))
-        print(positions)
         return positions
