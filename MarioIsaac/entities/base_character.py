@@ -22,6 +22,8 @@ class BaseCharacter(MovingTile):
         self.current_x_direction = "right"
         self.current_y_direction = "down"
         self.can_attack = True
+        
+        self.velocity = 0.8
 
     def try_attack(self) -> None:
         if self.can_attack:

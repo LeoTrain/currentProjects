@@ -37,6 +37,7 @@ class Player(BaseCharacter):
         self.in_attack = False
         self.xp = Xp()
         self.attack_start_time = time.time()
+        self.velocity = 0.8
 
     def set_direction(self, direction):
         self.last_pressed_direction = direction

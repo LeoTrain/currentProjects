@@ -18,15 +18,13 @@ class CollisionManager:
             if collided_tiles:
                 self.collision_resolver.resolve_tile_collision(entity, collided_tiles)
             else:
-                if entity.can_move:
-                    entity.changeMoving(True)
+                entity.changeMoving(True)
 
             for other_entity in entities:
                 if entity != other_entity:
-                    if self.collision_detector.detect_entity_collision(entity, other_entity):
-                        self.collision_resolver.resolve_entity_collision(entity, other_entity)
-                    elif other_entity.isPlayer:
-                        entity.can_move = True
+                    collision_vector = self.collision_detector.detect_entity_collision(entity, other_entity)
+                    if collision_vector and collision_vector.length() > 0:
+                        self.collision_resolver.resolve_entity_collision(entity, other_entity, collision_vector)
     #
     # def handleSingleCollision(self, entity, entities, tiles):
     #     collided_tiles = self.collision_detector.detect_tile_collisions(entity, tiles)
