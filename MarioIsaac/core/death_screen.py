@@ -1,6 +1,7 @@
 import pygame
 import sys
 
+
 class DeathScreen:
     def __init__(self, surface, level):
         self.surface = surface
@@ -15,10 +16,7 @@ class DeathScreen:
         for option in self.options:
             text = self.font.render(option, True, (255, 255, 255))
             text_rect = text.get_rect()
-            self.option_rectangles.append({
-                "text": text,
-                "rect": text_rect
-            })
+            self.option_rectangles.append({"text": text, "rect": text_rect})
         rect_height_sum = sum([opt["rect"].height for opt in self.option_rectangles])
         x_start = self.surface.get_width() // 2
         y_start = self.surface.get_height() // 2 - rect_height_sum // 2
@@ -27,7 +25,9 @@ class DeathScreen:
             y_start += option["rect"].height + 40
 
     def render(self):
-        overlay = pygame.Surface((self.surface.get_width(), self.surface.get_height()), pygame.SRCALPHA)
+        overlay = pygame.Surface(
+            (self.surface.get_width(), self.surface.get_height()), pygame.SRCALPHA
+        )
         overlay.fill((0, 0, 0, 150))
         self.surface.blit(overlay, (0, 0))
 
@@ -38,13 +38,19 @@ class DeathScreen:
             outline_text = self.font.render(self.options[i], True, (204, 153, 150))
             outline_rect = outline_text.get_rect(center=option["rect"].center)
             for offset in [-2, 2]:
-                self.surface.blit(outline_text, (outline_rect.x + offset, outline_rect.y))
-                self.surface.blit(outline_text, (outline_rect.x, outline_rect.y + offset))
+                self.surface.blit(
+                    outline_text, (outline_rect.x + offset, outline_rect.y)
+                )
+                self.surface.blit(
+                    outline_text, (outline_rect.x, outline_rect.y + offset)
+                )
             self.surface.blit(text, option["rect"])
 
         title_font = pygame.font.Font(None, 80)
         title_text = title_font.render("You Died!", True, (255, 140, 0))
-        title_rect = title_text.get_rect(center=(self.surface.get_width() // 2, self.surface.get_height() // 4))
+        title_rect = title_text.get_rect(
+            center=(self.surface.get_width() // 2, self.surface.get_height() // 4)
+        )
         self.surface.blit(title_text, title_rect)
 
         pygame.display.update()
@@ -72,7 +78,7 @@ class DeathScreen:
     def run(self):
         death_choice = None
         while death_choice is None:
-            self.level.render()
+            self.level._render()
             death_choice = self.handle_input()
             self.render()
         return death_choice
