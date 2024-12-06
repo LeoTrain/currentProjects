@@ -1,4 +1,5 @@
 import time
+import math
 
 from ..entities.base_character import BaseCharacter
 
@@ -38,18 +39,24 @@ class Enemy(BaseCharacter):
             self.move(x_direction, y_direction)
             self.current_state = "run"
 
-    def can_attack(self):
+    def try_attack(self, player):
+        if self.can_attack(player):
+            self.attack()
+            player.take_damage(self.attack_power)
+
+    def can_attack(self, player):
         can_attack = False
         time_passed = time.time() - self.attack_start_time
-        if time_passed > 2:
+        if time_passed > 2 and self.isCloseEnough(player, 100):
             can_attack = True
         return can_attack
 
-    def attack(self, player) -> None:
-        if self.can_attack():
-            super().attack()
-            self.attack_start_time = time.time()
-            player.take_damage(self.attack_power)
+    def isCloseEnough(self, player, threshold):
+        return math.sqrt((player.rect.centerx - self.rect.centerx)**2 + (player.rect.centery - self.rect.centery)**2) < threshold
+
+    def attack(self) -> None:
+        super().attack()
+        self.attack_start_time = time.time()
 
     def isEnemy(self) -> bool:
         return True

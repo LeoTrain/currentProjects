@@ -15,10 +15,11 @@ class CollisionManager:
             if collided_tiles:
                 self.collision_resolver.resolve_tile_collision(entity, collided_tiles)
             else:
-                entity.can_move_up = True
-                entity.can_move_down = True
-                entity.can_move_left = True
-                entity.can_move_right = True
+                if entity.can_move:
+                    entity.can_move_up = True
+                    entity.can_move_down = True
+                    entity.can_move_left = True
+                    entity.can_move_right = True
 
             for other_entity in entities:
                 if entity != other_entity:
