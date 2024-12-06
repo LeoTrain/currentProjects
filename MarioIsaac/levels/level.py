@@ -16,8 +16,17 @@ class Level:
         self.camera_offset_y = self.player.rect.topleft[1]
 
     def run(self, event_handler):
-        self.update(event_handler)
-        self.render()
+        self._update(event_handler)
+        self._render()
+
+    def _update(self, event_handler):
+        event_handler.handle()
+        self._updateEnemyPositions()
+        self.collision_manager.handle_collisions([self.player] + self.enemies, self.collision_tiles)
+        self._updateSprites()
+        self._did_player_win()
+        self._update_camera()
+        pygame.display.update()
 
     def _load_map(self, map_path):
         self.game_map = Map(map_path)
@@ -46,19 +55,14 @@ class Level:
     def _initialise_enemies(self):
         sprite_sheet_path = "MarioIsaac/assets/sprites/orcs/my_goblin_v1.png"
         starting_positions = self.game_map.get_enemy_starting_position("goblin")
-        self.enemies = [
-            Goblin(self.surface, sprite_sheet_path).with_position(pos)
-            for pos in starting_positions
-        ]
+        self.enemies = [Goblin(self.surface, sprite_sheet_path).with_position(pos) for pos in starting_positions]
 
     def reset_level(self):
         font = pygame.font.Font(None, 36)
         loading_screen = LoadingScreen(self.surface, font, total_steps=4)
-        steps = [
-            self._initialise_images,
-            self._initialise_enemies,
-            self._initialise_player
-        ]
+        steps = [ self._initialise_images,
+                self._initialise_enemies,
+                self._initialise_player]
         for step in steps:
             step()
             loading_screen.increment_step()
@@ -67,6 +71,15 @@ class Level:
     def _update_camera(self):
         self.camera_offset_x = self.player.rect.centerx - self.surface.get_width() // 2
         self.camera_offset_y = self.player.rect.centery - self.surface.get_height() // 2
+
+    def _render(self):
+        self.surface.fill((92, 82, 71))
+        self.game_map.render(self.surface, self.camera_offset_x, self.camera_offset_y)
+        self.player.draw(self.camera_offset_x, self.camera_offset_y)
+        self.player.draw_xp_bar(self.surface)
+        for enemy in self.enemies:
+            enemy.draw(self.camera_offset_x, self.camera_offset_y)
+        self._draw_hearts()
 
     def _draw_hearts(self):
         dead_hearts = self.player.starting_life_points - self.player.life_points
@@ -79,36 +92,21 @@ class Level:
             x_pos -= heart_width
             self.surface.blit(self.heart_dead_image, (x_pos, 50))
 
-    def render(self):
-        self.surface.fill((92, 82, 71))
-        self.game_map.render(self.surface, self.camera_offset_x, self.camera_offset_y)
-        self.player.draw(self.camera_offset_x, self.camera_offset_y)
-        self.player.draw_xp_bar(self.surface)
-        for enemy in self.enemies:
-            enemy.draw(self.camera_offset_x, self.camera_offset_y)
-        self._draw_hearts()
-
-    def did_player_win(self):
+    def _did_player_win(self):
         if not self.enemies:
             pygame.event.post(pygame.event.Event(event_dick["player_won"]))
 
-    def update(self, event_handler):
-        event_handler.handle()
-        self._updateEnemyPositions()
-        self.collision_manager.handle_collisions([self.player] + self.enemies, self.collision_tiles)
-        # self.collision_manager.handleSingleCollision(self.player, [self.player] + self.enemies, self.collision_tiles)
-
+    def _updateSprites(self):
         self.player.updateSprite()
-        for enemy in self.enemies:
-            enemy.updateSprite()
-
-        self.did_player_win()
-        self._update_camera()
-        pygame.display.update()
+        self._updateEnemySprites()
 
     def _updateEnemyPositions(self):
         for enemy in self.enemies:
             enemy.updatePosition(self.player.rect.topleft)
+
+    def _updateEnemySprites(self):
+        for enemy in self.enemies:
+            enemy.updateSprite()
 
 
 
