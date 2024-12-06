@@ -47,7 +47,7 @@ class Enemy(BaseCharacter):
     def can_attack(self, player):
         can_attack = False
         time_passed = time.time() - self.attack_start_time
-        if time_passed > 2 and self.isCloseEnough(player, 100):
+        if time_passed > 2 and self.isCloseEnough(player, self.rect.width):
             can_attack = True
         return can_attack
 
