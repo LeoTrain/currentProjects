@@ -29,4 +29,4 @@ class MovingTile(Tile):
         self.can_move_right = can_move
         self.can_move_up = can_move
         self.can_move_down = can_move
-        self.can_move = False
+        self.can_move = can_move

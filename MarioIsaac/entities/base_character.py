@@ -21,10 +21,14 @@ class BaseCharacter(MovingTile):
         self.current_state = "idle"
         self.current_x_direction = "right"
         self.current_y_direction = "down"
+        self.can_attack = True
+
+    def try_attack(self) -> None:
+        if self.can_attack:
+            self.attack()
 
     def attack(self) -> None:
         self.current_state = "attack"
-
 
     def take_damage(self, damage):
         self.life_points -= damage

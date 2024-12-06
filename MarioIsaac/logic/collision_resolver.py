@@ -1,6 +1,7 @@
 import pygame
 from pygame.math import Vector2
 from ..helpers.directions import Directions
+from ..entities.base_character import BaseCharacter
 
 class CollisionResolver:
     def resolve_tile_collision(self, entity, tiles):
@@ -28,25 +29,34 @@ class CollisionResolver:
         entity.can_move_up = not collision_up
         entity.can_move_down = not collision_down
 
-    def resolve_entity_collision(self, entity1, entity2):
+    def resolve_entity_collision(self, entity1, entity2) -> None:
         # marge = 10
         # When Enemy collides with Player
         if entity1.isEnemy() and entity2.isPlayer():
             entity1.changeMoving(False)
             entity1.try_attack(entity2)
-            # overlap_x = entity1.rect.centerx - entity2.rect.centerx
-            # overlap_y = entity1.rect.centery - entity2.rect.centery
-            #
-            # if abs(overlap_x) > abs(overlap_y):
-            #     if overlap_x > 0:
-            #         entity1.rect.left = entity2.rect.right - marge
-            #     else:
-            #         entity1.rect.right = entity2.rect.left + marge
-            # else:
-            #     if overlap_y > 0:
-            #         entity1.rect.top = entity2.rect.bottom - marge
-            #     else:
-            #         entity1.rect.bottom = entity2.rect.top + marge
+        if entity2.isEnemy() and entity2.isEnemy():
+            overlap = entity1.position - entity2.position
+            collision_left = collision_right = collision_up = collision_down = False
+            if abs(overlap.x) > abs(overlap.y):
+                if overlap.x > 0:
+                    entity1.position.x = entity2.position.x + entity1.rect.width
+                    collision_left = True
+                else:
+                    entity1.position.x = entity2.position.x - entity1.rect.width
+                    collision_right = True
+            else:
+                if overlap.y > 0:
+                    entity1.position.y = entity2.position.y + entity1.rect.height
+                    collision_up = True
+                else:
+                    entity1.position.y = entity2.position.y - entity1.rect.height
+                    collision_down = True
+            entity1.can_move_left = not collision_left
+            entity1.can_move_right = not collision_right
+            entity1.can_move_up = not collision_up
+            entity1.can_move_down = not collision_down
+
         # if (isinstance(entity1, Enemy)):
 
 
