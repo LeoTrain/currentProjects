@@ -7,6 +7,7 @@ from ..logic.collision_manager import CollisionManager
 from ..logic.event_dick import event_dick
 from ..core.loading_screen import LoadingScreen
 
+
 class Level:
     def __init__(self, surface):
         self.surface = surface
@@ -14,6 +15,7 @@ class Level:
         self._initialise_components()
         self.camera_offset_x = self.player.rect.topleft[0]
         self.camera_offset_y = self.player.rect.topleft[1]
+        self.level_finished = False
 
     def run(self, event_handler):
         self._update(event_handler)
@@ -22,7 +24,9 @@ class Level:
     def _update(self, event_handler):
         event_handler.handle()
         self._updateEnemyPositions()
-        self.collision_manager.handle_collisions([self.player] + self.enemies, self.collision_tiles)
+        self.collision_manager.handle_collisions(
+            [self.player] + self.enemies, self.collision_tiles
+        )
         self._updateSprites()
         self._did_player_win()
         self._update_camera()
@@ -40,13 +44,19 @@ class Level:
         self.all_sprites = pygame.sprite.Group()
 
     def _initialise_images(self):
-        heart_alive_image = pygame.image.load("MarioIsaac/assets/tileset/hearts/heart_red.png")
-        heart_dead_image = pygame.image.load("MarioIsaac/assets/tileset/hearts/heart_black.png")
+        heart_alive_image = pygame.image.load(
+            "MarioIsaac/assets/tileset/hearts/heart_red.png"
+        )
+        heart_dead_image = pygame.image.load(
+            "MarioIsaac/assets/tileset/hearts/heart_black.png"
+        )
         self.heart_alive_image = pygame.transform.scale(heart_alive_image, (32, 32))
         self.heart_dead_image = pygame.transform.scale(heart_dead_image, (32, 32))
 
     def _initialise_player(self):
-        sprite_sheet_path = "MarioIsaac/assets/sprites/base_character/my_base_character_v3.png"
+        sprite_sheet_path = (
+            "MarioIsaac/assets/sprites/base_character/my_base_character_v3.png"
+        )
         self.player = Player(self.surface, sprite_sheet_path)
         starting_position = self.game_map.get_player_starting_position()
         self.player.rect.topleft = starting_position
@@ -55,14 +65,19 @@ class Level:
     def _initialise_enemies(self):
         sprite_sheet_path = "MarioIsaac/assets/sprites/orcs/my_goblin_v1.png"
         starting_positions = self.game_map.get_enemy_starting_position("goblin")
-        self.enemies = [Goblin(self.surface, sprite_sheet_path).with_position(pos) for pos in starting_positions]
+        self.enemies = [
+            Goblin(self.surface, sprite_sheet_path).with_position(pos)
+            for pos in starting_positions
+        ]
 
     def reset_level(self):
         font = pygame.font.Font(None, 36)
         loading_screen = LoadingScreen(self.surface, font, total_steps=4)
-        steps = [ self._initialise_images,
-                self._initialise_enemies,
-                self._initialise_player]
+        steps = [
+            self._initialise_images,
+            self._initialise_enemies,
+            self._initialise_player,
+        ]
         for step in steps:
             step()
             loading_screen.increment_step()
@@ -107,6 +122,3 @@ class Level:
     def _updateEnemySprites(self):
         for enemy in self.enemies:
             enemy.updateSprite()
-
-
-

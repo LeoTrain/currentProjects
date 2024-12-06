@@ -4,6 +4,7 @@ from ..logic.event_dick import event_dick
 from ..core.death_screen import DeathScreen
 from ..core.winner_screen import WinnerScreen
 
+
 class EventHandler:
     def __init__(self, display, level, game) -> None:
         self.level = level
@@ -72,6 +73,7 @@ class EventHandler:
     def handle_end_state(self, state):
         if state == "start_game":
             self.level.reset_level()
+            self.game.nextLevel()
             self.game.level_active = True
             self.game.main_menu_active = False
         elif state == "main_menu":
@@ -85,7 +87,9 @@ class EventHandler:
             self.handle_end_state(state)
 
         elif event.type == event_dick["enemy_dead"]:
-            self.level.enemies = [enemy for enemy in self.level.enemies if enemy.life_points > 0]
+            self.level.enemies = [
+                enemy for enemy in self.level.enemies if enemy.life_points > 0
+            ]
 
         elif event.type == event_dick["player_won"]:
             state = self.winner_screen.run()
