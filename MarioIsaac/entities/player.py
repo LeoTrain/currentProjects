@@ -29,7 +29,7 @@ class Player(BaseCharacter):
         }
         super().__init__(display, sprite_sheet_path)
         self.image = self.sprites["idle_down"][0]
-        self.speed = 5
+        self.speed = 1
         self.attack_counter = 0
         self.life_points = self.starting_life_points = 5
         self.attack_power = 3

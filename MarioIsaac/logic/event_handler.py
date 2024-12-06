@@ -3,6 +3,7 @@ import pygame
 from ..logic.event_dick import event_dick
 from ..core.death_screen import DeathScreen
 from ..core.winner_screen import WinnerScreen
+from ..helpers.directions import Directions
 
 
 class EventHandler:
@@ -15,22 +16,22 @@ class EventHandler:
     def handle_player_movement(self):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_a]:
-            self.level.player.move(-1, 0)
+            self.level.player.move(Directions.LEFT)
             self.level.player.current_x_direction = "left"
             self.level.player.set_direction("left")
             self.level.player.current_state = "run"
         elif keys[pygame.K_d]:
-            self.level.player.move(1, 0)
+            self.level.player.move(Directions.RIGHT)
             self.level.player.current_x_direction = "right"
             self.level.player.set_direction("right")
             self.level.player.current_state = "run"
         elif keys[pygame.K_w]:
-            self.level.player.move(0, -1)
+            self.level.player.move(Directions.UP)
             self.level.player.current_y_direction = "up"
             self.level.player.set_direction("up")
             self.level.player.current_state = "run"
         elif keys[pygame.K_s]:
-            self.level.player.move(0, 1)
+            self.level.player.move(Directions.DOWN)
             self.level.player.current_y_direction = "down"
             self.level.player.set_direction("down")
             self.level.player.current_state = "run"

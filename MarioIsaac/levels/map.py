@@ -1,6 +1,7 @@
 import pygame
 import pytmx
 
+from pygame.math import Vector2
 from ..entities.tile import Tile
 
 
@@ -19,7 +20,8 @@ class Map:
                     tile = self.tmx_data.get_tile_image_by_gid(gid)
                     if tile:
                         tile = pygame.transform.scale(tile, (self.tile_size, self.tile_size))
-                        surface.blit(tile, (x * self.tile_size - offset_x, y * self.tile_size - offset_y))
+                        position = Vector2(x * self.tile_size, y * self.tile_size) - Vector2(offset_x, offset_y)
+                        surface.blit(tile, position.xy)
 
     def get_collision_tiles(self, surface):
         collision_tiles = []
@@ -28,7 +30,7 @@ class Map:
                 for x, y, gid in layer:
                     if gid != 0:
                         tile = Tile(surface)
-                        tile.rect.topleft = (x * self.tile_size, y * self.tile_size)
+                        tile.position = Vector2(x * self.tile_size, y * self.tile_size)
                         collision_tiles.append(tile)
         return collision_tiles
 
@@ -40,7 +42,7 @@ class Map:
                 return i
             i += 1
 
-    def get_player_starting_position(self):
+    def get_player_starting_position(self) -> Vector2:
         x_start = 0
         y_start = 0
         scale_factor = self._calculate_scale_factor()
@@ -48,7 +50,7 @@ class Map:
             if obj.name == "player_spawn":
                 x_start = obj.x * scale_factor
                 y_start = obj.y * scale_factor
-        return (x_start, y_start)
+        return (Vector2(x_start, y_start))
 
     def get_enemy_starting_position(self, enemy_name):
         x_start = 0

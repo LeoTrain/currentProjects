@@ -1,5 +1,6 @@
 from ..entities.tile import Tile
 from ..helpers.directions import Directions
+from pygame.math import Vector2
 
 
 class MovingTile(Tile):
@@ -13,26 +14,11 @@ class MovingTile(Tile):
         self.can_move_down = True
         self.can_move = True
 
-    def move(self, dx, dy):
+    def move(self, direction:Vector2=Directions.LEFT):
         if (self.can_move):
             self.update_old_rect()
-            if dx < 0:
-                if self.can_move_left:
-                    self.rect.x += dx * self.speed
-            elif dx > 0:
-                if self.can_move_right:
-                    self.rect.x += dx * self.speed
-            else:
-                self.rect.x += dx * self.speed
-
-            if dy < 0:
-                if self.can_move_up:
-                    self.rect.y += dy * self.speed
-            elif dy > 0:
-                if self.can_move_down:
-                    self.rect.y += dy * self.speed
-            else:
-                self.rect.y += dy * self.speed
+            self.position = self.position + (direction * self.speed)
+            self._update_rectangle()
 
     def isMoving(self):
         return self.can_move_left or self.can_move_right or self.can_move_up or self.can_move_left

@@ -1,20 +1,29 @@
 import pygame
+from pygame import Surface
+from pygame.math import Vector2
 
 
 class Tile(pygame.sprite.Sprite):
-    def __init__(self, display, image=None):
+    def __init__(self, display, image:Surface=Surface((128, 128)), set_position:Vector2=Vector2(0, 0)):
         super().__init__()
         self.display = display
-        if image is not None:
-            self.image = image
-        else:
-            self.image = pygame.Surface((128, 128))
+        self.image = image
         self.mask = pygame.mask.from_surface(self.image)
-        self.rect = self.image.get_rect()
+        self.rect = self.image.get_rect(topleft=(set_position.x, set_position.y))
         self.old_rect = self.rect.copy()
         self.max_offset = 200
         self.draw_rect_border = False
         self.color_mask = False
+
+        self.position = set_position
+        @property
+        def position(self):
+            return self._value
+
+        @position.setter
+        def position(self, new_value:Vector2):
+            self._value = new_value
+            self.rect.topleft = (int(self.position.x), int(self.position.y))
 
     def draw_mask(self, offset_x, offset_y, color=(128, 0, 128)):
         mask_surface = pygame.Surface(self.image.get_size(), pygame.SRCALPHA)
@@ -36,3 +45,7 @@ class Tile(pygame.sprite.Sprite):
 
     def update_old_rect(self):
         self.old_rect = self.rect.copy()
+
+    def _update_rectangle(self) -> None:
+        self.rect.x = int(self.position.x)
+        self.rect.y = int(self.position.y)

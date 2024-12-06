@@ -1,6 +1,7 @@
 import time
 import math
 
+from ..helpers.directions import Directions
 from ..entities.base_character import BaseCharacter
 
 
@@ -16,27 +17,28 @@ class Enemy(BaseCharacter):
             in_range = True
         return in_range
 
-    def move_to_player(self, player_pos):
+    def move_to_player(self, player_pos) -> None:
         if self.can_move:
+            direction = Directions.EMPTY
             if player_pos[0] < self.rect.x:
-                x_direction = -1
+                direction += Directions.LEFT
                 self.current_x_direction = "left"
             elif player_pos[0] > self.rect.x:
-                x_direction = 1
+                direction += Directions.RIGHT
                 self.current_x_direction = "right"
             else:
-                x_direction = 0
+                pass
 
             if player_pos[1] < self.rect.y:
-                y_direction = -1
+                direction += Directions.UP
                 self.current_y_direction = "up"
             elif player_pos[1] > self.rect.y:
-                y_direction = 1
+                direction += Directions.DOWN
                 self.current_y_direction = "down"
             else:
-                y_direction = 0
+                pass
 
-            self.move(x_direction, y_direction)
+            self.move(direction)
             self.current_state = "run"
 
     def try_attack(self, player):

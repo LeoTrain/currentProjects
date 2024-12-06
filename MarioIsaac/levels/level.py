@@ -24,11 +24,11 @@ class Level:
     def _update(self, event_handler):
         event_handler.handle()
         self._updateEnemyPositions()
-        self.collision_manager.handle_collisions(
-            [self.player] + self.enemies, self.collision_tiles
-        )
+        # self.collision_manager.handle_collisions(
+        #     [self.player] + self.enemies, self.collision_tiles
+        # )
         self._updateSprites()
-        self._did_player_win()
+        # self._did_player_win()
         self._update_camera()
         pygame.display.update()
 
@@ -59,7 +59,7 @@ class Level:
         )
         self.player = Player(self.surface, sprite_sheet_path)
         starting_position = self.game_map.get_player_starting_position()
-        self.player.rect.topleft = starting_position
+        self.player.position = starting_position
         self.player.mask = pygame.mask.from_surface(self.player.image)
 
     def _initialise_enemies(self):
