@@ -18,26 +18,20 @@ class Enemy(BaseCharacter):
             in_range = True
         return in_range
 
-    def move_to_player(self, player_pos) -> None:
+    def move_to_player(self, player_pos:Vector2) -> None:
         if self.can_move:
-            direction = Directions.EMPTY
-            if player_pos[0] < self.rect.x:
-                direction += Directions.LEFT
-                self.current_x_direction = "left"
-            elif player_pos[0] > self.rect.x:
-                direction += Directions.RIGHT
-                self.current_x_direction = "right"
-            else:
-                pass
+            direction = player_pos - self.position
+            if direction.length() > 0:
+                direction = direction.normalize()
 
-            if player_pos[1] < self.rect.y:
-                direction += Directions.UP
+            if direction.x < 0:
+                self.current_x_direction = "left"
+            elif direction.x > 0:
+                self.current_x_direction = "right"
+            if direction.y < 0:
                 self.current_y_direction = "up"
-            elif player_pos[1] > self.rect.y:
-                direction += Directions.DOWN
+            elif direction.y > 0:
                 self.current_y_direction = "down"
-            else:
-                pass
 
             self.move(direction)
             self.current_state = "run"
@@ -63,9 +57,6 @@ class Enemy(BaseCharacter):
 
     def isEnemy(self) -> bool:
         return True
-
-    def updatePosition(self, player_pos):
-        self.move_to_player(player_pos)
 
     def updateSprite(self):
         self.animation_controller.update_sprite()

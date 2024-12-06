@@ -51,13 +51,10 @@ class Map:
         return Vector2(0, 0)
 
     def get_enemy_starting_position(self, enemy_name) -> List[Vector2]:
-        x_start = 0
-        y_start = 0
         positions = []
         scale_factor = self._calculate_scale_factor()
         for obj in self.tmx_data.objects:
             if enemy_name in obj.name:
-                x_start = obj.x * scale_factor
-                y_start = obj.y * scale_factor
-                positions.append(Vector2(x_start, y_start))
+                positions.append(Vector2(obj.x * scale_factor, obj.y * scale_factor))
+        print(positions)
         return positions

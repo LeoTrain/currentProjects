@@ -13,8 +13,8 @@ class Level:
         self.surface = surface
         self._load_map("MarioIsaac/maps/level_one.tmx")
         self._initialise_components()
-        self.camera_offset_x = self.player.rect.topleft[0]
-        self.camera_offset_y = self.player.rect.topleft[1]
+        self.camera_offset_x = self.player.position.x
+        self.camera_offset_y = self.player.position.y
         self.level_finished = False
 
     def run(self, event_handler):
@@ -117,7 +117,7 @@ class Level:
 
     def _updateEnemyPositions(self):
         for enemy in self.enemies:
-            enemy.updatePosition(self.player.rect.topleft)
+            enemy.move_to_player(self.player.position)
 
     def _updateEnemySprites(self):
         for enemy in self.enemies:

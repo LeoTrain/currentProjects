@@ -18,7 +18,7 @@ class MovingTile(Tile):
     def move(self, direction:Vector2=Directions.LEFT):
         if (self.can_move):
             self.update_old_rect()
-            self.position = self.position + (direction * self.speed)
+            self.position += direction * self.speed
             self._update_rectangle()
 
     def isMoving(self):
