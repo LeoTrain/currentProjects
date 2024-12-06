@@ -10,7 +10,7 @@ class Map:
         self.width = self.tmx_data.width
         self.height = self.tmx_data.height
         self.tile_size = 128
-        self.map_tile_size = 32
+        self.map_tile_size = 32df
 
     def render(self, surface, offset_x, offset_y):
         for layer in self.tmx_data.visible_layers:
