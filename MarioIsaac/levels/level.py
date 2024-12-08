@@ -93,7 +93,7 @@ class Level:
         self._draw_hearts()
 
     def _draw_hearts(self):
-        dead_hearts = self.player.starting_life_points - self.player.life_points
+        dead_hearts = self.player.max_life_points - self.player.life_points
         heart_width = self.heart_alive_image.get_width()
         x_pos = self.surface.get_width() - heart_width
         for _ in range(self.player.life_points):

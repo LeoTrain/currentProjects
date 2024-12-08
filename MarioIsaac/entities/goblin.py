@@ -32,7 +32,7 @@ class Goblin(Enemy):
         self.image = self.sprites["idle_down"][0]
         self.current_frame_index = 0
         self.speed = 3
-        self.life_points = random.randint(5, 8)
+        self.life_points = self.max_life_points = random.randint(5, 8)
         self.attack_range = 100
         self.attack_power = 1
         self.attack_start_time = time.time()

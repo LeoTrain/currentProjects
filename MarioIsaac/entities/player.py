@@ -34,7 +34,7 @@ class Player(BaseCharacter):
         self.speed = 5
         self.velocity = 0.8
         self.attack_counter = 0
-        self.life_points = self.starting_life_points = 5
+        self.life_points = self.max_life_points = 5
         self.attack_power = 3
         self.in_attack = False
         self.xp = Xp()
