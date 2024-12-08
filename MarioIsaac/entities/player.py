@@ -31,13 +31,13 @@ class Player(BaseCharacter):
         super().__init__(display, sprite_sheet_path, set_position)
         self.image = self.sprites["idle_down"][0]
         self.speed = 5
+        self.velocity = 0.8
         self.attack_counter = 0
         self.life_points = self.starting_life_points = 5
         self.attack_power = 3
         self.in_attack = False
         self.xp = Xp()
         self.attack_start_time = time.time()
-        self.velocity = 0.8
 
     def set_direction(self, direction):
         self.last_pressed_direction = direction

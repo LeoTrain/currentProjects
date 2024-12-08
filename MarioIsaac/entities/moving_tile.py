@@ -15,6 +15,7 @@ class MovingTile(Tile):
         self.can_move_up = True
         self.can_move_down = True
         self.can_move = True
+        self.is_colliding = False
 
     def move(self, direction:Vector2=Directions.LEFT):
         if (self.can_move):
@@ -25,6 +26,14 @@ class MovingTile(Tile):
             self.position += speed + acceleration
             self._update_rectangle()
 
+    def collided(self) -> bool:
+        self.is_colliding = True
+        return True
+
+    def stoppedColliding(self) -> bool:
+        self.is_colliding = False
+        return False
+        
     def isMoving(self):
         return self.can_move_left or self.can_move_right or self.can_move_up or self.can_move_left
 

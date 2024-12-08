@@ -26,7 +26,7 @@ class Level:
         self._updateEnemyPositions()
         self.collision_manager.handle_collisions([self.player] + self.enemies, self.collision_tiles)
         self._updateSprites()
-        # self._did_player_win()
+        self._did_player_win()
         self._update_camera()
         pygame.display.update()
 
@@ -105,7 +105,9 @@ class Level:
 
     def _did_player_win(self):
         if not self.enemies:
-            pygame.event.post(pygame.event.Event(event_dick["player_won"]))
+            # pygame.event.post(pygame.event.Event(event_dick["player_won"]))
+            pass
+            
 
     def _updateSprites(self):
         self.player.updateSprite()

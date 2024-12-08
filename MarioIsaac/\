@@ -17,10 +17,8 @@ class CollisionManager:
             collided_tiles = self.collision_detector.detect_tile_collisions(entity, tiles)
             if collided_tiles:
                 self.collision_resolver.resolve_tile_collision(entity, collided_tiles)
-                entity.collided()
             else:
                 entity.changeMoving(True)
-                entity.stoppedColliding()
 
             for other_entity in entities:
                 if entity != other_entity:

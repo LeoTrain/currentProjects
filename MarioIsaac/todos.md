@@ -1,13 +1,16 @@
 #To-Do's
 
 ## New
-- A first real map
-- Doors that open and close between the rooms
-- Create a hit box
-- Adding objects
+-[ ] A first real map
+-[ ] Doors that open and close between the rooms
+-[ ] Create a hit box
+-[ ] Adding objects
+-[ ] Randomly position enemies
 
 ## Fixes
-- Handle Enemy when colliding with player
-- New attack with rect
-- making the player's rect smaller
+-[ ] Handle Enemy when colliding with player
+  - Enemies in player 
+-[ ] Handle enemy when colliding with enemy
+-[ ] New attack with rect
+-[ ] making the player's rect smaller
 
