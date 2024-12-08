@@ -26,7 +26,7 @@ class CollisionManager:
                 if entity != other_entity:
                     collision_vector = self.collision_detector.detect_entity_collision(entity, other_entity)
                     if collision_vector:
-                        self.collision_resolver.resolve_entity_collision(entity, other_entity)
+                        self.collision_resolver.resolve_entity_collision(entity, other_entity, collision_vector)
     #
     # def handleSingleCollision(self, entity, entities, tiles):
     #     collided_tiles = self.collision_detector.detect_tile_collisions(entity, tiles)
