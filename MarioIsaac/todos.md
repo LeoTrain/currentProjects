@@ -13,4 +13,5 @@
 -[ ] Handle enemy when colliding with enemy
 -[ ] New attack with rect
 -[ ] making the player's rect smaller
+-[x] Change current_direction and last_direction to use Directions/Vectors instead of strings.
 
