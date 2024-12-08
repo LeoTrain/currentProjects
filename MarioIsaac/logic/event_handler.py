@@ -4,6 +4,7 @@ from ..logic.event_dick import event_dick
 from ..core.death_screen import DeathScreen
 from ..core.winner_screen import WinnerScreen
 from ..helpers.directions import Directions
+from pygame.math import Vector2
 
 
 class EventHandler:
@@ -16,25 +17,13 @@ class EventHandler:
     def handle_player_movement(self):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_a]:
-            self.level.player.move(Directions.LEFT)
-            self.level.player.current_x_direction = "left"
-            self.level.player.set_direction("left")
-            self.level.player.current_state = "run"
+            self._player_move_to_direction(Directions.LEFT)
         elif keys[pygame.K_d]:
-            self.level.player.move(Directions.RIGHT)
-            self.level.player.current_x_direction = "right"
-            self.level.player.set_direction("right")
-            self.level.player.current_state = "run"
+            self._player_move_to_direction(Directions.RIGHT)
         elif keys[pygame.K_w]:
-            self.level.player.move(Directions.UP)
-            self.level.player.current_y_direction = "up"
-            self.level.player.set_direction("up")
-            self.level.player.current_state = "run"
+            self._player_move_to_direction(Directions.UP)
         elif keys[pygame.K_s]:
-            self.level.player.move(Directions.DOWN)
-            self.level.player.current_y_direction = "down"
-            self.level.player.set_direction("down")
-            self.level.player.current_state = "run"
+            self._player_move_to_direction(Directions.DOWN)
         else:
             if self.level.player.in_attack:
                 if self.level.player.attack_counter < 25:
@@ -45,6 +34,12 @@ class EventHandler:
                     self.level.player.in_attack = False
             else:
                 self.level.player.current_state = "idle"
+
+    def _player_move_to_direction(self, direction:Vector2) -> None:
+        self.level.player.move(direction)
+        self.level.player.current_direction = direction
+        self.level.player.set_direction(direction)
+        self.level.player.current_state = "run"
 
     def handle_event(self, event):
         self.handle_custom_events(event)

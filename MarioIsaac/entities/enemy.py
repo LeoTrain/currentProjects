@@ -25,13 +25,13 @@ class Enemy(BaseCharacter):
                 direction = direction.normalize()
 
             if direction.x < 0:
-                self.current_x_direction = "left"
+                self.current_direction = Directions.LEFT
             elif direction.x > 0:
-                self.current_x_direction = "right"
+                self.current_direction = Directions.RIGHT
             if direction.y < 0:
-                self.current_y_direction = "up"
+                self.current_direction = Directions.UP
             elif direction.y > 0:
-                self.current_y_direction = "down"
+                self.current_direction = Directions.DOWN
 
             self.move(direction)
             self.current_state = "run"

@@ -4,6 +4,7 @@ from ..entities.moving_tile import MovingTile
 from ..logic.sprite_loader import SpriteLoader
 from ..logic.animation_controller import AnimationController
 from ..logic.event_dick import event_dick
+from ..helpers.directions import Directions
 from pygame.math import Vector2
 
 class BaseCharacter(MovingTile):
@@ -19,11 +20,8 @@ class BaseCharacter(MovingTile):
         self.attack_range = 0
 
         self.current_state = "idle"
-        self.current_x_direction = "right"
-        self.current_y_direction = "down"
+        self.current_direction = Directions.DOWNRIGHT
         self.can_attack = True
-        
-        self.velocity = 0.8
 
     def try_attack(self) -> None:
         if self.can_attack:

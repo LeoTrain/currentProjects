@@ -4,6 +4,7 @@ import pygame
 from pygame.math import Vector2
 from ..entities.base_character import BaseCharacter
 from ..logic.experience import Xp
+from ..helpers.directions import Directions
 
 
 class Player(BaseCharacter):
@@ -39,7 +40,7 @@ class Player(BaseCharacter):
         self.xp = Xp()
         self.attack_start_time = time.time()
 
-    def set_direction(self, direction):
+    def set_direction(self, direction:Vector2):
         self.last_pressed_direction = direction
 
     def can_attack(self):
@@ -55,15 +56,15 @@ class Player(BaseCharacter):
         attack_rect = self.rect.copy()
         attack_size = 20
 
-        if self.last_pressed_direction == "left":
+        if self.last_pressed_direction == Directions.LEFT:
             attack_rect.width += attack_size
             attack_rect.x -= attack_size
-        elif self.last_pressed_direction == "right":
+        elif self.last_pressed_direction == Directions.RIGHT:
             attack_rect.width += attack_size
-        elif self.last_pressed_direction == "up":
+        elif self.last_pressed_direction == Directions.UP:
             attack_rect.height += attack_size
             attack_rect.y -= attack_size
-        elif self.last_pressed_direction == "down":
+        elif self.last_pressed_direction == Directions.DOWN:
             attack_rect.height += attack_size
 
         for enemy in enemies:

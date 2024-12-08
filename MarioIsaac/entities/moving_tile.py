@@ -9,7 +9,7 @@ class MovingTile(Tile):
         super().__init__(display, set_position=set_position)
         self.speed = 0
         self.acceleration = 1
-        self.last_pressed_direction = "down"
+        self.last_pressed_direction = Directions.DOWN
         self.can_move_left = True
         self.can_move_right = True
         self.can_move_up = True

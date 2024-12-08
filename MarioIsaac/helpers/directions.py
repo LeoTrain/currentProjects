@@ -14,3 +14,18 @@ class Directions:
     @classmethod
     def all_directions(cls):
         return [cls.EMPTY, cls.LEFT, cls.RIGHT, cls.UP, cls.DOWN, cls.UPLEFT, cls.UPRIGHT, cls.DOWNLEFT, cls.DOWNRIGHT]
+
+    @staticmethod
+    def to_string(direction:Vector2):
+        direction_map = {
+            (0, 0): "empty",
+            (0, -1): "up",
+            (0, 1): "down",
+            (1, 0): "right",
+            (-1, 0): "left",
+            (-1, -1): "upleft",
+            (1, -1): "upright",
+            (-1, 1): "downleft",
+            (1, 1): "downright",
+        }
+        return direction_map.get((int(direction.x), int(direction.y)), "Unknown Direction")

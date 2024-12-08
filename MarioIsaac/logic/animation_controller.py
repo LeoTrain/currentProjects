@@ -1,4 +1,6 @@
 import pygame
+from pygame.math import Vector2
+from ..helpers.directions import Directions
 
 
 class AnimationController:
@@ -13,14 +15,14 @@ class AnimationController:
         )
         self.entity = entity
 
-    def get_current_direction_index(self, direction):
+    def get_current_direction_index(self, direction:Vector2):
         directions = {
             "down": 0,
             "up": 1,
             "left": 2,
             "right": 3
         }
-        return directions[direction]
+        return directions[Directions.to_string(direction)]
 
     def increment_frame(self):
         current_state = self.entity.current_state
@@ -32,7 +34,7 @@ class AnimationController:
         if (self.entity.isEnemy() and self.entity.current_state == "attack"):
             pass
         frame_count = self.entity.frame_counts[self.entity.current_state][0]
-        state_key = f"{self.entity.current_state}_{self.entity.last_pressed_direction}"
+        state_key = f"{self.entity.current_state}_{Directions.to_string(self.entity.last_pressed_direction)}"
         self.entity.image = self.sprites[state_key][self.current_frame_index // frame_count]
 
     def _update_mask(self):
