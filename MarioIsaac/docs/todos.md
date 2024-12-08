@@ -6,6 +6,7 @@
 -[ ] Create a hit box
 -[ ] Adding objects
 -[ ] Randomly position enemies
+-[x] Implement life bar
 
 ## Fixes
 -[ ] Handle Enemy when colliding with player
