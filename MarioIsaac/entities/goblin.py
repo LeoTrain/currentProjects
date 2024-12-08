@@ -1,6 +1,8 @@
+import pygame
 import random
 import time
 
+from typing import Dict
 from ..entities.enemy import Enemy
 from pygame.math import Vector2
 
@@ -38,6 +40,19 @@ class Goblin(Enemy):
         self.attack_start_time = time.time()
         self.xp_value = self.life_points + random.randint(1, 3)
         self.velocity = 0.6
+        self.sounds = self._init_sounds()
+
+    def _init_sounds(self) -> Dict[str, pygame.mixer.Sound]:
+        assets_path = "MarioIsaac/assets/sounds/orc/"
+        damage_sounds = [assets_path + "orc_taking_damage1.wav", assets_path+"orc_taking_damage2.wav", assets_path+"orc_taking_damage3.wav"]
+        sounds = {
+            "damageTaken": pygame.mixer.Sound(damage_sounds[random.randint(1, len(damage_sounds)-1)])
+        }
+        return sounds
+
+    def take_damage(self, damage):
+        self.sounds["damageTaken"].play()
+        return super().take_damage(damage)
 
     def with_position(self, position):
         self.rect.topleft = position
