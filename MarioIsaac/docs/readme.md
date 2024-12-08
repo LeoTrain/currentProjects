@@ -56,3 +56,4 @@ Make sure you have Python and Pygame installed!
 ## 🤝 **Contributing**
 Feel free to contribute ideas, report bugs, or submit pull requests. This project is still under active development, and any contributions are welcome!
 
+[[todos]]
