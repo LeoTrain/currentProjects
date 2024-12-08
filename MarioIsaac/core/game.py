@@ -9,6 +9,7 @@ from ..logic.event_handler import EventHandler
 class Game:
     def __init__(self) -> None:
         pygame.init()
+        pygame.mixer.init()
         self.display_width, self.display_height = 800, 600
         self.display = pygame.display.set_mode(
             (self.display_width, self.display_height)

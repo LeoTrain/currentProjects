@@ -1,6 +1,7 @@
 import time
 import pygame
 
+from typing import Dict
 from pygame.math import Vector2
 from ..entities.base_character import BaseCharacter
 from ..logic.experience import Xp
@@ -39,6 +40,13 @@ class Player(BaseCharacter):
         self.in_attack = False
         self.xp = Xp()
         self.attack_start_time = time.time()
+        self.sounds = self._init_sounds()
+
+    def _init_sounds(self) -> Dict[str, pygame.mixer.Sound]:
+        sounds = {
+            "attack": pygame.mixer.Sound("MarioIsaac/assets/sounds/sword/sword_stab_sound.mp3")
+        }
+        return sounds
 
     def set_direction(self, direction:Vector2):
         self.last_pressed_direction = direction
@@ -52,6 +60,7 @@ class Player(BaseCharacter):
 
     def attack(self, enemies):
         super().attack()
+        self.sounds["attack"].play()
         self.attack_start_time = time.time()
         attack_rect = self.rect.copy()
         attack_size = 20
