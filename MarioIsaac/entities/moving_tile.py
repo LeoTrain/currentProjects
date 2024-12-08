@@ -8,6 +8,7 @@ class MovingTile(Tile):
     def __init__(self, display, set_position:Vector2):
         super().__init__(display, set_position=set_position)
         self.speed = 0
+        self.acceleration = 1
         self.last_pressed_direction = "down"
         self.can_move_left = True
         self.can_move_right = True
@@ -18,7 +19,10 @@ class MovingTile(Tile):
     def move(self, direction:Vector2=Directions.LEFT):
         if (self.can_move):
             self.update_old_rect()
-            self.position += direction * self.speed
+            # x = x0+v0*t+ 1/2*a*t^2
+            speed = Vector2(direction.x*self.speed, direction.y*self.speed) * 1
+            acceleration = Vector2(direction.x*self.acceleration, direction.y*self.acceleration) / 2 * (1**2)
+            self.position += speed + acceleration
             self._update_rectangle()
 
     def isMoving(self):

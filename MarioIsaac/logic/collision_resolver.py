@@ -35,17 +35,17 @@ class CollisionResolver:
         if entity1.isEnemy() and entity2.isPlayer():
             entity1.changeMoving(False)
             return
-
-        if entity1.isEnemy() and entity2.isEnemy():
-            entity2.position += collision_normal * overlap / 2
-            entity1.position -= collision_normal * overlap / 2
-
-            velocity1 = entity1.velocity
-            velocity2 = entity2.velocity
-            entity1.velocity = velocity2
-            entity2.velocity = velocity1
-
-            separation = entity2.position - entity1.position
-            adjustment = separation.normalize() * (overlap / 2)
-            entity1.position -= adjustment
-            entity2.position += adjustment
+        #
+        # if entity1.isEnemy() and entity2.isEnemy():
+        #     entity2.position += collision_normal * overlap / 2
+        #     entity1.position -= collision_normal * overlap / 2
+        #
+        #     velocity1 = entity1.velocity
+        #     velocity2 = entity2.velocity
+        #     entity1.velocity = velocity2
+        #     entity2.velocity = velocity1
+        #
+        #     separation = entity2.position - entity1.position
+        #     adjustment = separation.normalize() * (overlap / 2)
+        #     entity1.position -= adjustment
+        #     entity2.position += adjustment

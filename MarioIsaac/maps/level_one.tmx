@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="64" height="64" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="9">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="64" height="64" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="11">
  <tileset firstgid="1" source="Top Down walls.tsx"/>
  <tileset firstgid="257" source="Top Down floors.tsx"/>
  <objectgroup id="4" name="Player">
@@ -7,6 +7,8 @@
  </objectgroup>
  <objectgroup id="5" name="Enemies">
   <object id="3" name="goblin_1" x="175" y="250"/>
+  <object id="9" name="goblin_2" x="210.5" y="226"/>
+  <object id="10" name="goblin_3" x="270" y="210"/>
  </objectgroup>
  <layer id="1" name="Hard Layer" width="64" height="64">
   <data encoding="csv">
