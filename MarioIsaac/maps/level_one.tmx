@@ -7,10 +7,6 @@
  </objectgroup>
  <objectgroup id="5" name="Enemies">
   <object id="3" name="goblin_1" x="175" y="250"/>
-  <object id="4" name="goblin_2" x="88" y="320"/>
-  <object id="5" name="goblin_3" x="267" y="308"/>
-  <object id="7" name="goblin_4" x="273.333" y="224"/>
-  <object id="8" name="goblin_5" x="262.667" y="145.333"/>
  </objectgroup>
  <layer id="1" name="Hard Layer" width="64" height="64">
   <data encoding="csv">
