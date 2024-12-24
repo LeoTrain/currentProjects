@@ -1,0 +1,108 @@
+body {
+    font-family: 'Lexend Deca', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #70C1B3;
+    color: #F3FFBD;
+}
+
+header {
+    color: white;
+}
+
+header nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+}
+
+header nav ul li {
+    margin: 0 1rem;
+}
+
+header nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+header nav ul li a:hover {
+    text-decoration: underline;
+}
+
+#hero {
+    margin: 2rem;
+    margin-top: 5rem;
+    text-align: center;
+    padding: 2rem;
+    background-color: #247BA0;
+}
+
+#hero h1 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+#hero p {
+    font-size: 1.2rem;
+    color: #F3FFBD;
+}
+
+#features {
+    margin: 2rem;
+    text-align: center;
+    padding: 2rem;
+    background-color: #B2DBBF;
+}
+
+#features h2 {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+}
+
+#features p {
+    font-size: 1rem;
+    color #F3FFBD;
+}
+
+footer {
+    background-color: #1C1C1C;
+    color: white;
+    text-align: center;
+    padding: 1rem;
+    margin-top: 2rem;
+}
+
+#navbar {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    background: #333;
+    padding: 20px;
+    transition: padding 0.3s;
+}
+
+#navbar.scrolled {
+    position: fixed;
+    top: 0;
+    padding: 10px;
+    background: #222;
+}
+
+#About {
+    margin: 2rem;
+    text-align: center;
+    padding: 2rem;
+    background-color: #247BA0;
+}
+
+.fade-in {
+    opacity: 0;
+    transition: opacity 0.5s ease-out;
+}
+
+.fade-in.visible {
+    opacity: 1;
+}
