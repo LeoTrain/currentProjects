@@ -105,7 +105,7 @@ class Level:
 
     def _did_player_win(self):
         if not self.enemies:
-            # pygame.event.post(pygame.event.Event(event_dick["player_won"]))
+            pygame.event.post(pygame.event.Event(event_dick["player_won"]))
             pass
             
 
