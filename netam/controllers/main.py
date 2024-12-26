@@ -1,6 +1,7 @@
 from controllers.signin import SignInController
 from controllers.signup import SignUpController
 from controllers.home import HomeController
+from MessageBoxes.MessageBoxError import MessageBoxError
 
 class Controller:
     def __init__(self, model, view):
@@ -17,6 +18,7 @@ class Controller:
             self.home_controller.update_view()
             self.view.switch("home")
         else:
+            MessageBoxError(self.view.root, "Login Error", "There was an error with your credentials.")
             self.view.switch("signin")
 
     def start(self):

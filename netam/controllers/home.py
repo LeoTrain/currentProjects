@@ -14,7 +14,6 @@ class HomeController:
     def update_view(self):
         current_user = self.model.auth.current_user
         if current_user:
-            username = current_user["username"]
-            self.frame.header.configure(text=f"Welcome, {username}!")
+            self.frame.header.configure(text=f"Welcome, {current_user.username}!")
         else:
             self.frame.header.configure(text=f"")
