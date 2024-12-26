@@ -7,12 +7,15 @@ class SignInController:
 
     def _bind(self):
         self.frame.signin_btn.configure(command=self.signin)
+        self.frame.signup_btn.configure(command=self.signup)
+
+    def signup(self):
+        self.view.switch("signup")
 
     def signin(self):
         username = self.frame.username_input.get()
         password = self.frame.password_input.get()
-
         data = {"username": username, "password": password}
-        print(data)
-        self.frame.password_input.delete(0, last=len(password))
+
+        self.frame.password_input.delete(0, 'end')
         self.model.auth.login(data)

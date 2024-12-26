@@ -1,5 +1,5 @@
-from models.login import Login
+from models.auth import Authenticate
 
 class Model:
     def __init__(self):
-        self.login = Login()
+        self.auth = Authenticate()

@@ -6,18 +6,21 @@ class SignInView(CTkFrame):
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(1, weight=1)
         
-        self.header = CTkLabel(self, text="Sign In with existing account")
-        self.header.grid(row=0, column=0, columnspan=2, padx=10, pady=10)
+        self.header = CTkLabel(self, text="Sign In with existing account", font=("Arial", 40))
+        self.header.place(relx=0.5, rely=0.1, anchor="center")
 
-        self.username_label = CTkLabel(self, text="Username")
-        self.username_input = CTkEntry(self)
-        self.username_label.grid(row=1, column=0, padx=10, sticky="w")
-        self.username_input.grid(row=1, column=1, padx=(0, 20), sticky="ew")
+        self.input_frame = CTkFrame(self, fg_color="#C6A6A5", width=400, height=250)
+        self.input_frame.place(relx=0.5, rely=0.5, anchor="center")
 
-        self.password_label = CTkLabel(self, text="Password")
-        self.password_input = CTkEntry(self, show="*")
-        self.password_label.grid(row=2, column=0, padx=10, sticky="w")
-        self.password_input.grid(row=2, column=1, padx=(0, 20), sticky="ew")
+        self.username_label = CTkLabel(self.input_frame, text="Username", font=("Arial", 24))
+        self.username_input = CTkEntry(self.input_frame)
+        self.username_label.place(relx=0.2, rely=0.4, anchor="center")
+        self.username_input.place(relx=0.7, rely=0.4, anchor="center")
+
+        self.password_label = CTkLabel(self.input_frame, text="Password", font=("Arial", 24))
+        self.password_input = CTkEntry(self.input_frame, show="*")
+        self.password_label.place(relx=0.2, rely=0.52, anchor="center")
+        self.password_input.place(relx=0.7, rely=0.52, anchor="center")
 
         self.signin_btn = CTkButton(self, text="Sign In")
         self.signin_btn.grid(row=3, column=1, padx=0, pady=10, sticky="w")
