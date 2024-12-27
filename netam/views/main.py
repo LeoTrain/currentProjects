@@ -3,6 +3,7 @@ from views.root import Root
 from views.signin import SignInView
 from views.signup import SignUpView
 from views.home import HomeView
+from views.download import DownloadView
 
 class View:
     def __init__(self):
@@ -15,6 +16,7 @@ class View:
         self._add_frame(SignInView, "signin")
         self._add_frame(SignUpView, "signup")
         self._add_frame(HomeView, "home")
+        self._add_frame(DownloadView, "download")
 
     def _add_frame(self, Frame, name):
         self.frames[name] = Frame(self.root)

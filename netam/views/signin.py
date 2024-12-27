@@ -23,10 +23,10 @@ class SignInView(CTkFrame):
         self.password_input.place(relx=0.7, rely=0.52, anchor="center")
 
         self.signin_btn = CTkButton(self, text="Sign In")
-        self.signin_btn.grid(row=3, column=1, padx=0, pady=10, sticky="w")
+        self.signin_btn.place(relx=0.85, rely=0.81, anchor="center")
 
         self.signup_option_label = CTkLabel(self, text="Don't have an account?")
         self.signup_btn = CTkButton(self, text="Sign Up")
-        self.signup_option_label.grid(row=4, column=1, sticky="w")
-        self.signup_btn.grid(row=5, column=1, sticky="w")
+        self.signup_option_label.place(relx=0.85, rely=0.87, anchor="center")
+        self.signup_btn.place(relx=0.85, rely=0.925, anchor="center")
         
