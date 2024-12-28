@@ -19,7 +19,6 @@ class DownloadView(CTkFrame):
         self.progress_bar = CTkProgressBar(self, height=300, orientation='vertical')
         self.progress_bar.place(relx=0.8, rely=0.2)
         self.progress_bar.set(0)
-
         self.download_btn = CTkButton(self, text="Download", width=200, state="disabled")
         self.download_btn.place(relx=0.5, rely=0.75, anchor="center")
 

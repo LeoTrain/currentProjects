@@ -36,7 +36,7 @@ class DownloadController:
         bytes_downloaded = total_size - bytes_remaining
         progress = bytes_downloaded / total_size * 10
         self.frame.progress_bar.set(progress)
-
+        self.frame.link_entry.bind("<Return>", self.update_thumbnail)
 
     def to_home(self):
         self.view.switch("home")
@@ -63,6 +63,12 @@ class DownloadController:
         except Exception as e:
             print(f"ERROR updating thumbnail: {e}")
 
+    def fetch_thumbnail(self, youtube_link):
+        try:
+            image = self.model.youtube.thumbnail(youtube_link)
+            self.update_preview_label(image)
+        except Exception as e:
+            self.update_preview_label(f"Error: {str(e)}")
 
     def update_preview_label(self, image):
         self.frame.preview_label.configure(image=image)
