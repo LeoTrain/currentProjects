@@ -1,4 +1,5 @@
 from customtkinter import *
+import customtkinter
 from MessageBoxes.MessageBoxYesNo import MessageBoxYesNo
 from MessageBoxes.MessageBoxAsk import MessageBoxAsk
 from MessageBoxes.MessageBoxError import MessageBoxError
@@ -19,9 +20,6 @@ class UiController:
             self.labels.append(label)
 
     def save_button_click(self):
-        if self.save.name == "":
-            self._ask_for_save_name()
-
         try:
             saves = self.save_manager.load()
             save_already_exists = False
@@ -120,7 +118,6 @@ class UiController:
             for label in self.labels:
                 if label.get("name") == "setting_increment_size_input":
                     label["label"].configure(placeholder_text=f"{self.save.count_increment}")
-                    print("here2")
 
     def _update_labels(self):
         for label in self.labels:
@@ -134,5 +131,10 @@ class UiController:
 
     def _on_tab_command(self):
         self._update_settings_tab()
-        print("here")
 
+    def _color_mode_switch(self):
+        print(customtkinter.get_appearance_mode())
+        if customtkinter.get_appearance_mode() == "Dark":
+            customtkinter.set_appearance_mode("Light")
+        else:
+            customtkinter.set_appearance_mode("Dark")

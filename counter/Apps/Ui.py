@@ -55,10 +55,14 @@ class Ui:
     def __settings_tab(self):
         self.setting_increment_size_label = CTkLabel(master=self.tab_view.tab("Settings"), text="Increment Size: ", font=("Arial", 32))
         self.setting_increment_size_input = CTkEntry(master=self.tab_view.tab("Settings"), placeholder_text=f"{self.save.count_increment}", font=("Arial", 32))
+        self.settings_color_mode_label = CTkLabel(master=self.tab_view.tab("Settings"), text="Color mode:", font=("Arial", 32))
+        self.settings_color_mode_switch = CTkSwitch(master=self.tab_view.tab("Settings"), text="Light", width=32, command=self.controller._color_mode_switch)
         self.save_settings_button = CTkButton(master=self.tab_view.tab("Settings"), text="Apply", command=self.controller._ask_to_save_settings)
 
-        self.setting_increment_size_label.place(relx=0.2, rely=0.2)
-        self.setting_increment_size_input.place(relx=0.5, rely=0.2)
+        self.setting_increment_size_label.place(relx=0.1, rely=0.2)
+        self.setting_increment_size_input.place(relx=0.6, rely=0.2)
+        self.settings_color_mode_label.place(relx=0.1, rely=0.4)
+        self.settings_color_mode_switch.place(relx=0.6, rely=0.4)
         self.save_settings_button.place(relx=0.84, rely=0.8, anchor="e")
 
         labels = [{"name": "settings_increment_size_label", "label": self.setting_increment_size_label},

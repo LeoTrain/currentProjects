@@ -1,2 +1,85 @@
-obj
-bin
+# Ignorer les fichiers générés par le système
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+*.swp
+*.swo
+*.bak
+
+# Ignorer les fichiers de compilation C/C++
+*.o
+*.obj
+*.so
+*.exe
+*.dll
+*.a
+*.lib
+*.out
+
+# Ignorer les fichiers Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg
+*.egg-info/
+dist/
+build/
+*.venv/
+*.env/
+
+# Ignorer les fichiers liés aux environnements virtuels Python
+env/
+venv/
+*.virtualenv/
+.Python
+
+# Ignorer les fichiers C#
+*.exe
+*.dll
+*.pdb
+*.cache/
+*.csproj.user
+*.suo
+*.userprefs
+bin/
+obj/
+.vscode/
+.idea/
+
+# Ignorer les fichiers de scripts Bash
+*.swp
+*.sh.swp
+
+# Ignorer les fichiers liés aux IDE et éditeurs
+.vscode/
+.idea/
+*.code-workspace
+
+# Ignorer les fichiers de contrôle de version des IDE
+*.iml
+*.ipr
+*.iws
+*.sln
+*.csproj
+*.vs/
+
+# Ignorer les fichiers temporaires divers
+*.tmp
+*.log
+*.bak
+*.old
+*.stackdump
+*.trace
+
+# Ignorer les fichiers de configuration personnelle
+*.config
+*.ini
+*.settings
+
+# Ignorer les fichiers spécifiques au système
+Thumbs.db
+Desktop.ini
+*.~lock.*
+
